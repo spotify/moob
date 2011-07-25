@@ -3,7 +3,7 @@ require 'cgi'
 require 'patron'
 
 module Moob
-    VERSION = [0,1,0]
+    VERSION = [0,1,1]
 
     autoload :BaseLom,    'moob/baselom.rb'
     autoload :Idrac6,     'moob/idrac6.rb'

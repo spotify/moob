@@ -15,7 +15,7 @@ Gem::Specification.new do |s|
     s.summary     = 'Manage Out-Of-Band!'
     s.description = 'Control systems using Web-based out-of-band managers without a browser'
 
-    s.required_rubygems_version = '>= 1.3.6'
+    s.required_rubygems_version = '>= 1.2.0'
     s.rubyforge_project         = 'moob'
 
     s.add_dependency 'patron', '~> 0.4.13'
