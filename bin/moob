@@ -1,0 +1,49 @@
+#!/usr/bin/env ruby
+
+require 'optparse'
+require 'moob'
+
+options = {
+    :action => :jnlp,
+    :type => :idrac6,
+    :machines => []
+}
+
+OptionParser.new do |opts|
+    opts.on '-l', '--list',
+    'List LOM types' do
+        Moob::TYPES.each do |k, v|
+            puts "#{k} (#{v.name})"
+        end
+        exit 0
+    end
+    opts.on '-t', '--type t',
+    'LOM type (idrac6 by default)' do |t|
+            options[:type] = t.to_sym
+    end
+    opts.on '-u', '--username u',
+    'LOM username' do |u|
+            options[:username] = u
+    end
+    opts.on '-p', '--password p',
+    'LOM password' do |p|
+            options[:password] = p
+    end
+
+    opts.on '-m', '--machines a,b,c', Array,
+    'Comma-separated list of machines' do |m|
+            options[:machines] = m
+    end
+end.parse!
+
+if options[:machines].empty?
+    $stderr.puts 'No machines selected.'
+    exit 1
+end
+
+options[:machines].each do |h|
+    case options[:action]
+    when :jnlp
+        Moob.start_jnlp options[:type], h, options
+    end
+end
