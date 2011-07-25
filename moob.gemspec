@@ -14,6 +14,7 @@ Gem::Specification.new do |s|
     s.homepage    = "http://github.com/pcarrier/moob"
     s.summary     = 'Manage Out-Of-Band!'
     s.description = 'Control systems using Web-based out-of-band managers without a browser'
+    s.license     = 'Public-domain-like'
 
     s.required_rubygems_version = '>= 1.2.0'
     s.rubyforge_project         = 'moob'
