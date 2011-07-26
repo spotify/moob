@@ -15,12 +15,10 @@ class Moob::SunILom < Moob::BaseLom
 
         raise ResponseError.new auth unless auth.status == 200
 
-        cookie_match = auth.body.match /SetWebSessionString\("([^"]+)","([^"]+)"\);/
-        unless cookie_match
-            raise Exception.new "Couldn't find session cookie in \"#{auth.body}\""
-        end
+        auth.body =~ /SetWebSessionString\("([^"]+)","([^"]+)"\);/
+        raise Exception.new "Couldn't find session cookie in \"#{auth.body}\"" unless $&
 
-        @cookie = "#{cookie_match[1]}=#{cookie_match[2]}; langsetting=EN"
+        @cookie = "#{$1}=#{$2}; langsetting=EN"
         return self
     end
 

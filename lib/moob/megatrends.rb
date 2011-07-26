@@ -19,12 +19,10 @@ class Moob::Megatrends < Moob::BaseLom
 
         raise ResponseError.new auth unless auth.status == 200
 
-        cookie_match = auth.body.match /'SESSION_COOKIE' *: *'([^']+)'/
-        unless cookie_match
-            raise Exception.new "Couldn't find auth cookie in \"#{auth.body}\""
-        end
+        auth.body =~ /'SESSION_COOKIE' *: *'([^']+)'/
+        raise Exception.new "Couldn't find auth cookie in \"#{auth.body}\"" unless $&
 
-        @cookie = "test=1; path=/; SessionCookie=#{cookie_match[1]}"
+        @cookie = "test=1; path=/; SessionCookie=#{$1}"
         return self
     end
 
