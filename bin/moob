@@ -76,7 +76,7 @@ begin
             Moob.start_jnlp options[:type], h, options
         end
     end
-    puts 'There might be a delay as Java does its thing' if options[:action] == :jnlp
+    puts 'There might be a delay before Java Web Start shows up...' if options[:action] == :jnlp
 
 rescue Exception => e
     puts "\033[31mFailure (#{e.class}): #{e}\033[0m"
