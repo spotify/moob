@@ -28,8 +28,10 @@ module Moob
     def self.lom type, hostname, options = {}
         case type
         when :auto
-            lom = TYPES.find do |sym, klass|
-                klass.detect hostname, options
+            TYPES.find do |sym, klass|
+                lom = klass.new hostname, options
+                return lom if lom.detect
+                false
             end
         else
             return TYPES[type].new hostname, options

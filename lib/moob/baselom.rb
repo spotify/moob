@@ -16,16 +16,16 @@ class Moob::BaseLom
         @session.ignore_content_length = true
     end
 
+    def detect
+        false
+    end
+
     def jnlp
         raise new NoMethodError
     end
 
     def self.name
         @@name
-    end
-
-    def self.detect
-        false
     end
 
     protected
