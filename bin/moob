@@ -11,18 +11,34 @@ options = {
 }
 
 OptionParser.new do |opts|
-    opts.on '-l', '--list',
-    'List LOM types' do
-        Moob::TYPES.each do |sym, klass|
-            puts "#{sym} (#{klass.name})"
+    opts.on '-t', '--type t',
+    'LOM type, \'auto\' for autodetection, \'list\' to list',
+    'Defaults to auto' do |t|
+        if t == 'list'
+            Moob::TYPES.each do |sym, klass|
+                puts "#{sym} (#{klass.name})"
+            end
+            exit 0
+        else
+            options[:type] = t.to_sym
         end
-        exit 0
     end
 
-    opts.on '-t', '--type t',
-    'LOM type, or \'auto\' for autodetection',
-    'Defaults to auto' do |t|
-            options[:type] = t.to_sym
+    opts.on '-a', '--action t',
+    'Action to perform, \'list\' to list',
+    'Defaults to jnlp' do |a|
+        if a == 'list'
+            Moob::TYPES.each do |sym, klass|
+                if klass.actions
+                    puts "#{sym}: " + klass.actions.to_a.join(',')
+                else
+                    puts "#{sym}: no actions"
+                end
+            end
+            exit 0
+        else
+            options[:action] = a.to_sym
+        end
     end
 
     opts.on '-u', '--username u',
