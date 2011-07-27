@@ -25,9 +25,19 @@ module Moob
         end
     end
 
+    def self.lom type, hostname, options = {}
+        case type
+        when :auto
+            lom = TYPES.find do |sym, klass|
+                klass.detect hostname, options
+            end
+        else
+            return TYPES[type].new hostname, options
+        end
+    end
+
     def self.start_jnlp type, hostname, options = {}
-        lom = TYPES[type].new hostname, options
-        jnlp = lom.authenticate.jnlp
+        jnlp = lom(type, hostname, options).authenticate.jnlp
 
         unless jnlp[/<\/jnlp>/]
             raise RuntimeError.new "Invalid JNLP file (\"#{jnlp}\")"

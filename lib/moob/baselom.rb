@@ -24,6 +24,10 @@ class Moob::BaseLom
         @@name
     end
 
+    def self.detect
+        false
+    end
+
     protected
     # Get rid of security checks.
     # Might break some features,

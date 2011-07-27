@@ -5,7 +5,7 @@ require 'moob'
 
 options = {
     :action => :jnlp,
-    :type => :idrac6,
+    :type => :auto,
     :machines => []
 }
 
