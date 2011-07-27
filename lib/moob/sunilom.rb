@@ -16,7 +16,13 @@ class Moob::SunILom < Moob::BaseLom
         raise ResponseError.new auth unless auth.status == 200
 
         if auth.body =~ /\/iPages\/i_login.asp\?msg=([^"])+"/
-            raise Exception.new "Auth failed (code #{$1})"
+            error = "code #{$1}"
+            error_page = @session.get "iPages/i_login.asp?msg=#{$1}"
+            if error_page.body =~ /<div class="AlrtErrTxt">(.*?)<\/div>/
+                error = "\"#{$1.gsub /<[^>]+>/, ''}\""
+            end
+
+            raise Exception.new "Auth failed (#{error})"
         end
 
         auth.body =~ /SetWebSessionString\("([^"]+)","([^"]+)"\);/

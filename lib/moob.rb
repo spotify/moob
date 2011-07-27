@@ -1,9 +1,5 @@
-require 'socket'
-require 'cgi'
-require 'patron'
-
 module Moob
-    VERSION = [0,1,1]
+    VERSION = [0,2,0]
 
     autoload :BaseLom,    'moob/baselom.rb'
     autoload :Idrac6,     'moob/idrac6.rb'
@@ -29,14 +25,15 @@ module Moob
         case type
         when :auto
             TYPES.find do |sym, klass|
-                puts "Trying #{sym}..."
+                puts "Trying #{sym}..." if $VERBOSE
                 lom = klass.new hostname, options
                 if lom.detect
-                    puts "#{sym} detected!"
+                    puts "#{sym} detected!" if $VERBOSE
                     return lom
                 end
                 false
             end
+            raise RuntimeError.new "Could not detect a known LOM "
         else
             return TYPES[type].new hostname, options
         end

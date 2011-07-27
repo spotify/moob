@@ -40,8 +40,11 @@ OptionParser.new do |opts|
     'Comma-separated list of LOM hostnames' do |m|
             options[:machines] = m
     end
-end.parse!
 
+    opts.on '-v', '--verbose' do
+        $VERBOSE = true
+    end
+end.parse!
 
 if options[:machines].empty?
     $stderr.puts 'No LOMs selected.'
@@ -56,7 +59,11 @@ begin
         end
     end
     puts 'There might be a delay as Java does its thing' if options[:action] == :jnlp
+
 rescue Exception => e
-    puts "Failure (#{e.class}): #{e}"
+    puts "\033[31mFailure (#{e.class}): #{e}\033[0m"
+    puts "\nBacktrace to provide in any support request:\033[2;34m"
+    puts e.backtrace
+    print "\033[0m"
     exit 1
 end

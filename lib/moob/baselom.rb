@@ -1,3 +1,7 @@
+require 'socket'
+require 'cgi'
+require 'patron'
+
 class Moob::BaseLom
     @@name = 'Unknown'
 
