@@ -12,19 +12,22 @@ options = {
 OptionParser.new do |opts|
     opts.on '-l', '--list',
     'List LOM types' do
-        Moob::TYPES.each do |k, v|
-            puts "#{k} (#{v.name})"
+        Moob::TYPES.each do |sym, klass|
+            puts "#{sym} (#{klass.name})"
         end
         exit 0
     end
+
     opts.on '-t', '--type t',
     'LOM type (idrac6 by default)' do |t|
             options[:type] = t.to_sym
     end
+
     opts.on '-u', '--username u',
     'LOM username' do |u|
             options[:username] = u
     end
+
     opts.on '-p', '--password p',
     'LOM password' do |p|
             options[:password] = p
