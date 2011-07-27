@@ -71,9 +71,15 @@ end
 
 begin
     options[:machines].each do |h|
+        lom = Moob.lom options[:type], h, options
+        lom.authenticate
+
         case options[:action]
         when :jnlp
-            Moob.start_jnlp options[:type], h, options
+            Moob.start_jnlp lom
+        else
+            res = lom.send options[:action]
+            puts res if res
         end
     end
     puts 'There might be a delay before Java Web Start shows up...' if options[:action] == :jnlp
