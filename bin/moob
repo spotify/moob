@@ -19,28 +19,31 @@ OptionParser.new do |opts|
     end
 
     opts.on '-t', '--type t',
-    'LOM type (idrac6 by default)' do |t|
+    'LOM type, or \'auto\' for autodetection',
+    'Defaults to auto' do |t|
             options[:type] = t.to_sym
     end
 
     opts.on '-u', '--username u',
-    'LOM username' do |u|
+    'LOM username',
+    'Defaults to the model\'s default if known' do |u|
             options[:username] = u
     end
 
     opts.on '-p', '--password p',
-    'LOM password' do |p|
+    'LOM password',
+    'Defaults to the model\'s default if known' do |p|
             options[:password] = p
     end
 
     opts.on '-m', '--machines a,b,c', Array,
-    'Comma-separated list of machines' do |m|
+    'Comma-separated list of LOM hostnames' do |m|
             options[:machines] = m
     end
 end.parse!
 
 if options[:machines].empty?
-    $stderr.puts 'No machines selected.'
+    $stderr.puts 'No LOMs selected.'
     exit 1
 end
 
