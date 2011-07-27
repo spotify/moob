@@ -42,4 +42,13 @@ class Moob::Idrac6 < Moob::BaseLom
 
         return desecurize_jnlp viewer.body
     end
+
+    def detect
+        begin
+            home = @session.get 'login.html'
+            home.body =~ /Integrated Dell Remote Access Controller 6/
+        rescue
+            false
+        end
+    end
 end

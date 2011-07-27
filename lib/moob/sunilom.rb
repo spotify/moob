@@ -28,4 +28,13 @@ class Moob::SunILom < Moob::BaseLom
 
         return viewer.body
     end
+
+    def detect
+        begin
+            home = @session.get 'iPages/i_login.asp'
+            home.body =~ /Sun\(TM\) Sun Integrated Lights Out Manager/
+        rescue
+            false
+        end
+    end
 end

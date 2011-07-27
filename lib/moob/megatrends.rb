@@ -32,4 +32,13 @@ class Moob::Megatrends < Moob::BaseLom
 
         return desecurize_jnlp viewer.body
     end
+
+    def detect
+        begin
+            home = @session.get 'page/login.html'
+            home.body =~ /\.\.\/res\/banner_right.png/
+        rescue
+            false
+        end
+    end
 end
