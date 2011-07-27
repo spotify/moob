@@ -6,7 +6,7 @@ class Moob::Megatrends < Moob::BaseLom
         @username ||= 'root'
         @password ||= 'superuser'
         begin
-            @ip = Socket.getaddrinfo(hostname, nil)[0][2]
+            @ip = Socket.getaddrinfo(hostname, nil)[0][3]
         rescue
             raise Exception.new "Couldn't resolve \"#{hostname}\""
         end
