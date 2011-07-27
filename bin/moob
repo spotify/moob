@@ -6,7 +6,8 @@ require 'moob'
 options = {
     :action => :jnlp,
     :type => :auto,
-    :machines => []
+    :machines => [],
+    :password => ENV['password']
 }
 
 OptionParser.new do |opts|
@@ -32,8 +33,9 @@ OptionParser.new do |opts|
 
     opts.on '-p', '--password p',
     'LOM password',
-    'Defaults to the model\'s default if known' do |p|
-            options[:password] = p
+    'Defaults to the model\'s default if known',
+    'Use the environment variable PASSWORD instead!' do |p|
+        options[:password] = p
     end
 
     opts.on '-m', '--machines a,b,c', Array,
