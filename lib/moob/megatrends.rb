@@ -1,5 +1,6 @@
-class Moob::Megatrends < Moob::BaseLom
-    @@name = 'American Megatrends'
+module Moob
+class Megatrends < BaseLom
+    @name = 'American Megatrends'
 
     def initialize hostname, options = {}
         super hostname, options
@@ -26,6 +27,7 @@ class Moob::Megatrends < Moob::BaseLom
         return self
     end
 
+    action :jnlp
     def jnlp
         viewer = @session.get 'Java/jviewer.jnlp', { 'Cookie' => @cookie }
         raise ResponseError.new viewer unless viewer.status == 200
@@ -41,4 +43,41 @@ class Moob::Megatrends < Moob::BaseLom
             false
         end
     end
+
+    def power_action action
+        req = @session.post 'rpc/hostctl.asp',
+            { 'WEBVAR_POWER_CMD' => action },
+            { 'Cookie' => @cookie }
+        raise ResponseError.new req unless req.status == 200
+        unless req.body =~ /WEBVAR_STRUCTNAME_HL_POWERSTATUS/
+            raise Exception.new 'The answer looks wrong'
+        end
+        return nil
+    end
+
+    action :power_off
+    def power_off;      power_action 0; end
+    action :power_on
+    def power_on;       power_action 1; end
+    action :power_cycle
+    def power_cycle;    power_action 2; end
+    action :power_reset
+    def power_reset;    power_action 3; end
+    action :soft_power_off
+    def soft_power_off; power_action 5; end
+
+    action :power_status
+    def power_status
+        status = @session.get 'rpc/hoststatus.asp',
+            { 'Cookie' => @cookie }
+        raise ResponseError.new status unless status.status == 200
+        raise Exception.new unless status.body =~ /'JF_STATE' : (.),/
+        case $1
+        when '0'
+            return :off
+        when '1'
+            return :on
+        end
+    end
+end
 end

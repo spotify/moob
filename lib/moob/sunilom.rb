@@ -1,5 +1,6 @@
-class Moob::SunILom < Moob::BaseLom
-    @@name = 'Sun Integrated Lights Out Manager'
+module Moob
+class SunILom < BaseLom
+    @name = 'Sun Integrated Lights Out Manager'
 
     def initialize hostname, options = {}
         super hostname, options
@@ -32,6 +33,7 @@ class Moob::SunILom < Moob::BaseLom
         return self
     end
 
+    action :jnlp
     def jnlp
         viewer = @session.get 'cgi-bin/jnlpgenerator-8', { 'Cookie' => @cookie }
         raise ResponseError.new viewer unless viewer.status == 200
@@ -47,4 +49,5 @@ class Moob::SunILom < Moob::BaseLom
             false
         end
     end
+end
 end

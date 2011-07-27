@@ -1,9 +1,10 @@
 require 'socket'
 require 'cgi'
 require 'patron'
+require 'set'
 
 class Moob::BaseLom
-    @@name = 'Unknown'
+    @name = "Unknown"
 
     def initialize hostname, options = {}
         @hostname = hostname
@@ -20,16 +21,23 @@ class Moob::BaseLom
         @session.ignore_content_length = true
     end
 
+    attr_reader :hostname, :username
+
     def detect
         false
     end
 
-    def jnlp
-        raise new NoMethodError
+    def self.name
+        @name
     end
 
-    def self.name
-        @@name
+    def self.actions
+        @actions
+    end
+
+    def self.action sym
+        @actions ||= Set.new
+        @actions << sym
     end
 
     protected

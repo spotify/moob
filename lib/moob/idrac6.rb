@@ -1,5 +1,6 @@
-class Moob::Idrac6 < Moob::BaseLom
-    @@name = 'Dell iDrac 6'
+module Moob
+class Idrac6 < BaseLom
+    @name = 'Dell iDrac 6'
 
     def initialize hostname, options = {}
         super hostname, options
@@ -22,6 +23,7 @@ class Moob::Idrac6 < Moob::BaseLom
         return self
     end
 
+    action :jnlp
     def jnlp
         idx = @session.get 'index.html'
         raise ResponseError.new idx unless idx.status == 200
@@ -51,4 +53,5 @@ class Moob::Idrac6 < Moob::BaseLom
             false
         end
     end
+end
 end
