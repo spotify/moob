@@ -15,6 +15,10 @@ class Moob::SunILom < Moob::BaseLom
 
         raise ResponseError.new auth unless auth.status == 200
 
+        if auth.body =~ /\/iPages\/i_login.asp\?msg=([^"])+"/
+            raise Exception.new "Auth failed (code #{$1})"
+        end
+
         auth.body =~ /SetWebSessionString\("([^"]+)","([^"]+)"\);/
         raise Exception.new "Couldn't find session cookie in \"#{auth.body}\"" unless $&
 
