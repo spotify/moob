@@ -26,7 +26,6 @@ module Moob
     end
 
     def self.start_jnlp type, hostname, options = {}
-
         lom = TYPES[type].new hostname, options
         jnlp = lom.authenticate.jnlp
 
@@ -40,9 +39,5 @@ module Moob
         end
 
         system "javaws #{filepath}"
-    end
-
-    def self.cmdline
-        start_jnlp :megatrends, 'brenda.lom.sto.spotify.net'
     end
 end
