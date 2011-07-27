@@ -3,8 +3,8 @@ class Moob::Idrac6 < Moob::BaseLom
 
     def initialize hostname, options = {}
         super hostname, options
-         @username ||= 'root'
-         @password ||= 'calvin'
+        @username ||= 'root'
+        @password ||= 'calvin'
     end
 
     def authenticate
