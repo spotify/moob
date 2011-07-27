@@ -1,6 +1,15 @@
 module Moob
     VERSION = [0,2,0]
 
+    class ResponseError < Exception
+        def initialize response
+            @response = response
+        end
+        def to_s
+            "#{@response.url} failed (status #{@response.status})"
+        end
+    end
+
     autoload :BaseLom,    'moob/baselom.rb'
     autoload :Idrac6,     'moob/idrac6.rb'
     autoload :Megatrends, 'moob/megatrends.rb'
@@ -11,15 +20,6 @@ module Moob
         :megatrends => Megatrends,
         :sun        => SunILom
     }
-
-    class ResponseError < Exception
-        def initialize response
-            @response = response
-        end
-        def to_s
-            "#{@response.url} failed (status #{@response.status})"
-        end
-    end
 
     def self.lom type, hostname, options = {}
         case type
@@ -39,14 +39,14 @@ module Moob
         end
     end
 
-    def self.start_jnlp type, hostname, options = {}
-        jnlp = lom(type, hostname, options).authenticate.jnlp
+    def self.start_jnlp lom
+        jnlp = lom.jnlp
 
         unless jnlp[/<\/jnlp>/]
             raise RuntimeError.new "Invalid JNLP file (\"#{jnlp}\")"
         end
 
-        filepath = "/tmp/#{hostname}.jnlp"
+        filepath = "/tmp/#{lom.hostname}.jnlp"
         File.open filepath, 'w' do |f|
             f.write jnlp
         end
