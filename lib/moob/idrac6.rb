@@ -34,7 +34,7 @@ class Moob::Idrac6 < Moob::BaseLom
         raise Exception.new 'Couldn\'t find the system name' unless $&
         sys_name = $1 # eg PowerEdge R610
 
-        # eg escaped "idrac-D4MHZ4J, PowerEdge R610, User:root"
+        # eg escaped "idrac-A1BCD2E, PowerEdge R610, User:root"
         title = CGI::escape "#{dns_name}, #{sys_name}, User:#{@username}"
 
         viewer = @session.get "viewer.jnlp(#{@hostname}@0@#{title}@#{Time.now.to_i * 1000})"
