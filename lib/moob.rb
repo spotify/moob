@@ -29,8 +29,12 @@ module Moob
         case type
         when :auto
             TYPES.find do |sym, klass|
+                puts "Trying #{sym}..."
                 lom = klass.new hostname, options
-                return lom if lom.detect
+                if lom.detect
+                    puts "#{sym} detected!"
+                    return lom
+                end
                 false
             end
         else
