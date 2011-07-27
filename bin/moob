@@ -42,14 +42,21 @@ OptionParser.new do |opts|
     end
 end.parse!
 
+
 if options[:machines].empty?
     $stderr.puts 'No LOMs selected.'
     exit 1
 end
 
-options[:machines].each do |h|
-    case options[:action]
-    when :jnlp
-        Moob.start_jnlp options[:type], h, options
+begin
+    options[:machines].each do |h|
+        case options[:action]
+        when :jnlp
+            Moob.start_jnlp options[:type], h, options
+        end
     end
+    puts 'There might be a delay as Java does its thing' if options[:action] == :jnlp
+rescue Exception => e
+    puts "Failure (#{e.class}): #{e}"
+    exit 1
 end
