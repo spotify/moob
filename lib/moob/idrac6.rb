@@ -32,7 +32,7 @@ class Idrac6 < BaseLom
         end
     end
 
-    action :jnlp
+    action :jnlp, 'Remote control'
     def jnlp
         idx = @session.get 'index.html'
         raise ResponseError.new idx unless idx.status == 200

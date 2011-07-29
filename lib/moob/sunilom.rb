@@ -33,7 +33,7 @@ class SunILom < BaseLom
         return self
     end
 
-    action :jnlp
+    action :jnlp, 'Remote control'
     def jnlp
         viewer = @session.get 'cgi-bin/jnlpgenerator-8', { 'Cookie' => @cookie }
         raise ResponseError.new viewer unless viewer.status == 200

@@ -36,7 +36,7 @@ class Megatrends < BaseLom
         end
     end
 
-    action :jnlp
+    action :jnlp, 'Remote control'
     def jnlp
         viewer = @session.get 'Java/jviewer.jnlp', { 'Cookie' => @cookie }
         raise ResponseError.new viewer unless viewer.status == 200
@@ -55,23 +55,23 @@ class Megatrends < BaseLom
         return nil
     end
 
-    action :power_off
-    def power_off;      power_action 0; end
-    action :power_on
-    def power_on;       power_action 1; end
-    action :power_cycle
-    def power_cycle;    power_action 2; end
-    action :power_reset
-    def power_reset;    power_action 3; end
-    action :soft_power_off
-    def soft_power_off; power_action 5; end
+    action :poff,      'Power Off'
+    action :pon,       'Power On'
+    action :pcycle,    'Power Cycle'
+    action :preset,    'Power Reset'
+    action :soft_poff, 'Soft Power Off'
+    def poff;      power_action 0; end
+    def pon;       power_action 1; end
+    def pcycle;    power_action 2; end
+    def preset;    power_action 3; end
+    def soft_poff; power_action 5; end
 
-    action :power_status
+    action :power_status, 'Power status'
     def power_status
         status = @session.get 'rpc/hoststatus.asp',
             { 'Cookie' => @cookie }
         raise ResponseError.new status unless status.status == 200
-        raise Exception.new unless status.body =~ /'JF_STATE' : (.),/
+        raise Exception.new 'Couldn\'t read the state' unless status.body =~ /'JF_STATE' : (.),/
         case $1
         when '0'
             return :off
