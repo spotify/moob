@@ -30,9 +30,12 @@ OptionParser.new do |opts|
         if a == 'list'
             Moob::TYPES.each do |sym, klass|
                 if klass.actions
-                    puts "#{sym}: " + klass.actions.to_a.join(' ')
+                    puts "#{sym}:"
+                    klass.actions.each do |name, descr|
+                        puts "  #{name}: #{descr}"
+                    end
                 else
-                    puts "#{sym}: no actions"
+                    puts "#{sym} doesn't have any actions"
                 end
             end
             exit 0
