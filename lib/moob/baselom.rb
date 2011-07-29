@@ -35,16 +35,8 @@ class Moob::BaseLom
         @actions
     end
 
-    def self.action sym
-        @actions ||= Set.new
-        @actions << sym
-    end
-
-    protected
-    # Get rid of security checks.
-    # Might break some features,
-    # please let me know if that's the case!
-    def desecurize_jnlp jnlp
-        jnlp.sub /<security>.*<\/security>/m, ''
+    def self.action sym, descr
+        @actions ||= {}
+        @actions[sym] = descr
     end
 end

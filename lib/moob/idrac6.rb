@@ -42,7 +42,7 @@ class Idrac6 < BaseLom
         viewer = @session.get "viewer.jnlp(#{@hostname}@0@#{title}@#{Time.now.to_i * 1000})"
         raise ResponseError.new viewer unless viewer.status == 200
 
-        return desecurize_jnlp viewer.body
+        return viewer.body
     end
 
     def detect

@@ -27,14 +27,6 @@ class Megatrends < BaseLom
         return self
     end
 
-    action :jnlp
-    def jnlp
-        viewer = @session.get 'Java/jviewer.jnlp', { 'Cookie' => @cookie }
-        raise ResponseError.new viewer unless viewer.status == 200
-
-        return desecurize_jnlp viewer.body
-    end
-
     def detect
         begin
             home = @session.get 'page/login.html'
@@ -42,6 +34,14 @@ class Megatrends < BaseLom
         rescue
             false
         end
+    end
+
+    action :jnlp
+    def jnlp
+        viewer = @session.get 'Java/jviewer.jnlp', { 'Cookie' => @cookie }
+        raise ResponseError.new viewer unless viewer.status == 200
+
+        return viewer.body
     end
 
     def power_action action
