@@ -19,7 +19,7 @@ Gem::Specification.new do |s|
     s.required_rubygems_version = '>= 1.2.0'
     s.rubyforge_project         = 'moob'
 
-    s.add_dependency 'patron', '~> 0.4.13'
+    s.add_dependency 'patron', '~> 0.4.14'
 
     s.files        = Dir.glob("{bin,lib}/**/*") + %w(COPYING)
     s.executables  = ['moob']
