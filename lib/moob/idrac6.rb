@@ -119,18 +119,18 @@ class Idrac6 < BaseLom
     end
 
     def power_action action
-        req = @session.post "date?set=pwState:#{action}", {}
+        req = @session.post "data?set=pwState:#{action}", {}
         raise ResponseError.new req unless req.status == 200
         raise Exception.new 'The answer looks wrong' unless status.body =~ /<status>ok<\/status>/
         return nil
     end
 
-    action :poff,   'Power Off System'
-    action :pon,    'Power On System'
-    action :pcycle, 'Power Cycle System (cold boot)'
-    action :reboot,      'Reset System (warm boot)'
-    action :nmi,         'NMI (Non-Masking Interrupt)'
-    action :shudown,     'Graceful Shutdown'
+    action :poff,    'Power Off System'
+    action :pon,     'Power On System'
+    action :pcycle,  'Power Cycle System (cold boot)'
+    action :reboot,  'Reset System (warm boot)'
+    action :nmi,     'NMI (Non-Masking Interrupt)'
+    action :shudown, 'Graceful Shutdown'
 
     def poff;     power_action 0; end
     def pon;      power_action 1; end
