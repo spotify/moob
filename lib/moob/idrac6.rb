@@ -2,6 +2,70 @@ module Moob
 class Idrac6 < BaseLom
     @name = 'Dell iDrac 6'
 
+    INFO_FIELDS = %w{
+        sysDesc
+        biosVer
+        svcTag
+        expSvcCode
+        hostName
+        osName
+        osVersion
+        sysRev
+        LCCfwVersion
+        recoveryAction
+        initCountdown
+        presentCountdown
+        datetime
+        fwVersion
+        fwUpdated
+        hwVersion
+        macAddr
+        v4Enabled
+        v4IPAddr
+        v4Gateway
+        v4NetMask
+        v4DHCPEnabled
+        v4DHCPServers
+        v4DNS1
+        v4DNS2
+        v6Enabled
+        v6Addr
+        v6Gateway
+        v6DHCPEnabled
+        v6LinkLocal
+        v6Prefix
+        v6SiteLocal
+        v6SiteLocal3
+        v6SiteLocal4
+        v6SiteLocal5
+        v6SiteLocal6
+        v6SiteLocal7
+        v6SiteLocal8
+        v6SiteLocal9
+        v6SiteLocal10
+        v6SiteLocal11
+        v6SiteLocal12
+        v6SiteLocal13
+        v6SiteLocal14
+        v6SiteLocal15
+        racName
+        v6DHCPServers
+        v6DNS1
+        v6DNS2
+        NicEtherMac1
+        NicEtherMac2
+        NicEtherMac3
+        NicEtherMac4
+        NiciSCSIMac1
+        NiciSCSIMac2
+        NiciSCSIMac3
+        NiciSCSIMac4
+        NicEtherVMac1
+        NicEtherVMac2
+        NicEtherVMac3
+        NicEtherVMac4
+    }
+
     def initialize hostname, options = {}
         super hostname, options
         @username ||= 'root'
@@ -38,11 +102,11 @@ class Idrac6 < BaseLom
         raise ResponseError.new idx unless idx.status == 200
 
         idx.body =~ /var DnsName += +"([^"]+)"/
-        raise Exception.new 'Couldn\'t find the DNS name' unless $&
+        raise Exception.new "Couldn't find the DNS name" unless $&
         dns_name = $1
 
         idx.body =~ /var sysNameStr += +"([^"]+)"/
-        raise Exception.new 'Couldn\'t find the system name' unless $&
+        raise Exception.new "Couldn't find the system name" unless $&
         sys_name = $1 # eg PowerEdge R610
 
         # eg escaped "idrac-A1BCD2E, PowerEdge R610, User:root"
@@ -75,19 +139,36 @@ class Idrac6 < BaseLom
     def nmi;      power_action 4; end
     def shutdown; power_action 5; end
 
+    def get_infos keys
+        raise ResponseError.new status unless status.status == 200
+        infos = @session.post "data?get=#{keys.join(',')}"
+
+        raise Exception.new "The status isn't OK" unless infos.body =~ /<status>ok<\/status>/
+
+        return Hash[keys.collect do |k|
+            if infos.body =~ /<#{k}>(.*?)<\/#{k}>/
+                [k, $1]
+            else
+                raise Exception.new "Couldn't find the value of #{k}"
+            end
+        end]
+    end
+
     action :power_status, 'Power status'
     def power_status
-        status = @session.post 'data?get=pwState,',
-            { 'Cookie' => @cookie }
-        raise ResponseError.new status unless status.status == 200
-        raise Exception.new 'The answer looks wrong' unless status.body =~ /<status>ok<\/status>/
-        raise Exception.new 'Couldn\'t read the state' unless status.body =~ /<pwState>(.)<\/pwState>/
-        case $1
+        case get_infos('pwState')['pwState']
         when '0'
             return :off
         when '1'
             return :on
         end
+    end
+
+    action :infos, 'Get system information'
+    def infos
+        return get_infos(INFO_FIELDS).collect do |k,v|
+            "#{k}: #{v}\n"
+        end.chomp
     end
 end
 end
