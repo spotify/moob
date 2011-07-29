@@ -67,8 +67,8 @@ class Megatrends < BaseLom
     def preset;    power_action 3; end
     def soft_poff; power_action 5; end
 
-    action :power_status, 'Power status'
-    def power_status
+    action :pstatus, 'Power status'
+    def pstatus
         status = @session.get 'rpc/hoststatus.asp',
             { 'Cookie' => @cookie }
         raise ResponseError.new status unless status.status == 200

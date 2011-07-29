@@ -154,8 +154,8 @@ class Idrac6 < BaseLom
         end]
     end
 
-    action :power_status, 'Power status'
-    def power_status
+    action :pstatus, 'Power status'
+    def pstatus
         case get_infos('pwState')['pwState']
         when '0'
             return :off
