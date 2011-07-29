@@ -33,7 +33,7 @@ module Moob
                 end
                 false
             end
-            raise RuntimeError.new "Could not detect a known LOM "
+            raise RuntimeError.new "Couldn't detect a known LOM type"
         else
             return TYPES[type].new hostname, options
         end
@@ -51,6 +51,6 @@ module Moob
             f.write jnlp
         end
 
-        system "javaws #{filepath}"
+        raise Exception.new "Couldn't start javaws" unless system "javaws #{filepath}"
     end
 end
