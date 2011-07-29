@@ -25,10 +25,10 @@ module Moob
         case type
         when :auto
             TYPES.find do |sym, klass|
-                puts "Trying #{sym}..." if $VERBOSE
+                puts "Trying type #{sym}..." if $VERBOSE
                 lom = klass.new hostname, options
                 if lom.detect
-                    puts "#{sym} detected!" if $VERBOSE
+                    puts "Type #{sym} detected." if $VERBOSE
                     return lom
                 end
                 false

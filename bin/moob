@@ -72,7 +72,10 @@ end
 begin
     options[:machines].each do |h|
         lom = Moob.lom options[:type], h, options
+
+        puts "Trying to authenticate to #{h}..." if $VERBOSE
         lom.authenticate
+        puts "Authenticated on #{h}." if $VERBOSE
 
         case options[:action]
         when :jnlp
