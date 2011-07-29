@@ -121,7 +121,7 @@ class Idrac6 < BaseLom
     def power_action action
         req = @session.post "data?set=pwState:#{action}", {}
         raise ResponseError.new req unless req.status == 200
-        raise Exception.new 'The answer looks wrong' unless status.body =~ /<status>ok<\/status>/
+        raise Exception.new 'The answer looks wrong' unless req.body =~ /<status>ok<\/status>/
         return nil
     end
 
