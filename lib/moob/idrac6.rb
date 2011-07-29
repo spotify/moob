@@ -149,7 +149,7 @@ class Idrac6 < BaseLom
             if infos.body =~ /<#{k}>(.*?)<\/#{k}>/
                 [k, $1]
             else
-                raise Exception.new "Couldn't find the value of #{k}"
+                [k, nil]
             end
         end]
     end
@@ -161,6 +161,8 @@ class Idrac6 < BaseLom
             return :off
         when '1'
             return :on
+        else
+            return nil
         end
     end
 
