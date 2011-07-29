@@ -125,9 +125,9 @@ class Idrac6 < BaseLom
         return nil
     end
 
-    action :power_off,   'Power Off System'
-    action :power_on,    'Power On System'
-    action :power_cycle, 'Power Cycle System (cold boot)'
+    action :poff,   'Power Off System'
+    action :pon,    'Power On System'
+    action :pcycle, 'Power Cycle System (cold boot)'
     action :reboot,      'Reset System (warm boot)'
     action :nmi,         'NMI (Non-Masking Interrupt)'
     action :shudown,     'Graceful Shutdown'
