@@ -119,7 +119,7 @@ class Idrac6 < BaseLom
     end
 
     def power_action action
-        req = @session.post "date?set=pwState:#{action}"
+        req = @session.post "date?set=pwState:#{action}", {}
         raise ResponseError.new req unless req.status == 200
         raise Exception.new 'The answer looks wrong' unless status.body =~ /<status>ok<\/status>/
         return nil
@@ -140,7 +140,7 @@ class Idrac6 < BaseLom
     def shutdown; power_action 5; end
 
     def get_infos keys
-        infos = @session.post "data?get=#{keys.join(',')}"
+        infos = @session.post "data?get=#{keys.join(',')}", {}
 
         raise ResponseError.new infos unless infos.status == 200
         raise Exception.new "The status isn't OK" unless infos.body =~ /<status>ok<\/status>/
