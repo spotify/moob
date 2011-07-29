@@ -18,7 +18,6 @@ class Moob::BaseLom
         @session.connect_timeout = 10_000
         @session.timeout = 10_000
         @session.insecure = true
-        @session.ignore_content_length = true
     end
 
     attr_reader :hostname, :username

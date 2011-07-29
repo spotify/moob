@@ -38,6 +38,7 @@ class Megatrends < BaseLom
 
     action :jnlp, 'Remote control'
     def jnlp
+        @session.ignore_content_length = true
         viewer = @session.get 'Java/jviewer.jnlp', { 'Cookie' => @cookie }
         raise ResponseError.new viewer unless viewer.status == 200
 
