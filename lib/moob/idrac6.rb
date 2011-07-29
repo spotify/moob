@@ -140,9 +140,9 @@ class Idrac6 < BaseLom
     def shutdown; power_action 5; end
 
     def get_infos keys
-        raise ResponseError.new status unless status.status == 200
         infos = @session.post "data?get=#{keys.join(',')}"
 
+        raise ResponseError.new infos unless infos.status == 200
         raise Exception.new "The status isn't OK" unless infos.body =~ /<status>ok<\/status>/
 
         return Hash[keys.collect do |k|
