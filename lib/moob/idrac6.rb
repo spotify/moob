@@ -23,6 +23,15 @@ class Idrac6 < BaseLom
         return self
     end
 
+    def detect
+        begin
+            home = @session.get 'login.html'
+            home.body =~ /Integrated Dell Remote Access Controller 6/
+        rescue
+            false
+        end
+    end
+
     action :jnlp
     def jnlp
         idx = @session.get 'index.html'
@@ -45,12 +54,6 @@ class Idrac6 < BaseLom
         return viewer.body
     end
 
-    def detect
-        begin
-            home = @session.get 'login.html'
-            home.body =~ /Integrated Dell Remote Access Controller 6/
-        rescue
-            false
         end
     end
 end
