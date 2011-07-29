@@ -54,6 +54,41 @@ class Idrac6 < BaseLom
         return viewer.body
     end
 
+    def power_action action
+        req = @session.post "date?set=pwState:#{action}"
+        raise ResponseError.new req unless req.status == 200
+        raise Exception.new 'The answer looks wrong' unless status.body =~ /<status>ok<\/status>/
+        return nil
+    end
+
+{OFF : 0, ON : 1, POWERCYCLE : 2, REBOOT : 3, NMI : 4, SHUTDOWN : 5};
+
+    action :power_off,   'Power Off System'
+    action :power_on,    'Power On System'
+    action :power_cycle, 'Power Cycle System (cold boot)'
+    action :reboot,      'Reset System (warm boot)'
+    action :nmi,         'NMI (Non-Masking Interrupt)'
+    action :shudown,     'Graceful Shutdown'
+
+    def poff;     power_action 0; end
+    def pon;      power_action 1; end
+    def pcycle;   power_action 2; end
+    def reboot;   power_action 3; end
+    def nmi;      power_action 4; end
+    def shutdown; power_action 5; end
+
+    action :power_status, 'Power status'
+    def power_status
+        status = @session.post 'data?get=pwState,',
+            { 'Cookie' => @cookie }
+        raise ResponseError.new status unless status.status == 200
+        raise Exception.new 'The answer looks wrong' unless status.body =~ /<status>ok<\/status>/
+        raise Exception.new 'Couldn\'t read the state' unless status.body =~ /<pwState>(.)<\/pwState>/
+        case $1
+        when '0'
+            return :off
+        when '1'
+            return :on
         end
     end
 end
