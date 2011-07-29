@@ -51,6 +51,6 @@ module Moob
             f.write jnlp
         end
 
-        raise Exception.new "Couldn't start javaws" unless system "javaws #{filepath}"
+        raise Exception.new "javaws failed" unless system "javaws #{filepath}"
     end
 end
