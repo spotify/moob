@@ -20,6 +20,9 @@ class Moob::BaseLom
         @session.insecure = true
     end
 
+    def logout
+    end
+
     attr_reader :hostname, :username
 
     def detect

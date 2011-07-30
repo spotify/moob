@@ -87,6 +87,12 @@ class Idrac6 < BaseLom
         return self
     end
 
+    def logout
+        out = @session.get 'data/logout'
+        raise ResponseError.new out unless out.status == 200
+        return self
+    end
+
     def detect
         begin
             home = @session.get 'login.html'

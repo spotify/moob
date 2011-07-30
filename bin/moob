@@ -4,7 +4,7 @@ require 'optparse'
 require 'moob'
 
 options = {
-    :action => :jnlp,
+    :actions => :jnlp,
     :type => :auto,
     :machines => [],
     :password => ENV['password']
@@ -24,10 +24,10 @@ OptionParser.new do |opts|
         end
     end
 
-    opts.on '-a', '--action t',
-    'Action to perform, \'list\' to list',
+    opts.on '-a', '--actions a,b,c', Array,
+    'Actions to perform, \'list\' to list',
     'Defaults to jnlp' do |a|
-        if a == 'list'
+        if a == ['list']
             Moob::TYPES.each do |sym, klass|
                 if klass.actions
                     puts "#{sym}:"
@@ -40,7 +40,7 @@ OptionParser.new do |opts|
             end
             exit 0
         else
-            options[:action] = a.to_sym
+            options[:actions] = a
         end
     end
 
@@ -80,13 +80,20 @@ begin
         lom.authenticate
         puts "Authenticated on #{h}." if $VERBOSE
 
-        case options[:action]
-        when :jnlp
-            Moob.start_jnlp lom
-        else
-            res = lom.send options[:action]
-            puts res if res
+        options[:actions].each do |action|
+            action = action.to_sym
+            case action
+            when :jnlp
+                Moob.start_jnlp lom
+            else
+                puts "Trying to perform #{action} on #{h}..." if $VERBOSE
+                res = lom.send action
+                puts "Performed #{action} on #{h}." if $VERBOSE
+                puts res if res
+            end
         end
+
+        lom.logout
     end
     puts 'There might be a delay before Java Web Start shows up...' if options[:action] == :jnlp
 
