@@ -20,6 +20,7 @@ Gem::Specification.new do |s|
     s.rubyforge_project         = 'moob'
 
     s.add_dependency 'patron', '~> 0.4.14'
+    s.add_dependency 'json', '~> 1.5.3'
 
     s.files        = Dir.glob("{bin,lib}/**/*") + %w(COPYING)
     s.executables  = ['moob']
