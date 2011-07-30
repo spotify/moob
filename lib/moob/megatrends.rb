@@ -56,11 +56,11 @@ class Megatrends < BaseLom
         return nil
     end
 
-    action :poff,      'Power Off'
-    action :pon,       'Power On'
-    action :pcycle,    'Power Cycle'
-    action :preset,    'Power Reset'
-    action :soft_poff, 'Soft Power Off'
+    action :poff,     'Power Off'
+    action :pon,      'Power On'
+    action :pcycle,   'Power Cycle'
+    action :preset,   'Power Reset'
+    action :shutdown, 'Soft Power Off'
     def poff;      power_action 0; end
     def pon;       power_action 1; end
     def pcycle;    power_action 2; end

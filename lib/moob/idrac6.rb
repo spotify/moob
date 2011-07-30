@@ -52,6 +52,8 @@ class Idrac6 < BaseLom
         v6DHCPServers
         v6DNS1
         v6DNS2
+        vmBootOnce
+        firstBootDevice
         NicEtherMac1
         NicEtherMac2
         NicEtherMac3
@@ -124,26 +126,46 @@ class Idrac6 < BaseLom
         return viewer.body
     end
 
-    def power_action action
+    def power_control action
         req = @session.post "data?set=pwState:#{action}", {}
         raise ResponseError.new req unless req.status == 200
-        raise Exception.new 'The answer looks wrong' unless req.body =~ /<status>ok<\/status>/
         return nil
     end
 
-    action :poff,    'Power Off System'
-    action :pon,     'Power On System'
-    action :pcycle,  'Power Cycle System (cold boot)'
-    action :reboot,  'Reset System (warm boot)'
-    action :nmi,     'NMI (Non-Masking Interrupt)'
-    action :shudown, 'Graceful Shutdown'
+    def boot_on level
+        req = @session.post "data?set=vmBootOnce:1,firstBootDevice:#{level}", {}
+        raise ResponseError.new req unless req.status == 200
+        return nil
+    end
 
-    def poff;     power_action 0; end
-    def pon;      power_action 1; end
-    def pcycle;   power_action 2; end
-    def reboot;   power_action 3; end
-    def nmi;      power_action 4; end
-    def shutdown; power_action 5; end
+    [
+        [0, :poff,     'Power Off System'],
+        [1, :pon,      'Power On System'],
+        [2, :pcycle,   'Power Cycle System (cold boot)'],
+        [3, :preset,   'Reset System (warm boot)'],
+        [4, :nmi,      'NMI (Non-Masking Interrupt)'],
+        [5, :shutdown, 'Graceful Shutdown']
+    ].each do |code, name, desc|
+        action name, desc
+        class_eval %{def #{name}; power_control #{code}; end}
+    end
+
+    [
+        [0,  :bnone,    'Do not change the next boot'],
+        [1,  :bpxe,     'Boot on PXE once'],
+        [6,  :bbios,    'Boot on BIOS setup once'],
+        [15, :blfloppy, 'Boot on Local Floppy/Primary Removable Media once'],
+        [5,  :blcd,     'Boot on Local CD/DVD once'],
+        [2,  :blhd,     'Boot on Hard Drive once'],
+        [9,  :biscsi,   'Boot on NIC BEV iSCSI once'],
+        [7,  :bvfloppy, 'Boot on Virtual Floppy once'],
+        [8,  :bvcd,     'Boot on Virtual CD/DVD/ISO once'],
+        [16, :blsd,     'Boot on Local SD Card once'],
+        [11, :bvflash,  'Boot on vFlash once']
+    ].each do |code, name, desc|
+        action name, desc
+        class_eval %{def #{name}; boot_on #{code}; end}
+    end
 
     def get_infos keys
         infos = @session.post "data?get=#{keys.join(',')}", {}
