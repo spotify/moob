@@ -39,7 +39,7 @@ class Moob::BaseLom
     end
 
     def self.action sym, descr
-        @actions ||= {}
-        @actions[sym] = descr
+        @actions ||= []
+        @actions << [sym, descr]
     end
 end
