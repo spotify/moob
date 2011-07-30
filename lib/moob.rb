@@ -46,7 +46,7 @@ module Moob
             raise RuntimeError.new "Invalid JNLP file (\"#{jnlp}\")"
         end
 
-        filepath = "/tmp/#{lom.hostname}.jnlp"
+        filepath = "/tmp/#{lom.hostname}_#{Time.now.to_i}.jnlp"
         File.open filepath, 'w' do |f|
             f.write jnlp
         end
