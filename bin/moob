@@ -98,7 +98,7 @@ begin
     puts 'There might be a delay before Java Web Start shows up...' if options[:action] == :jnlp
 
 rescue Exception => e
-    $stderr.puts "\033[31mFailure (#{e.class}): #{e}\033[0m\n\n" \
+    $stderr.puts "\033[31mFailure: #{e.class} (#{e})\033[0m\n\n" \
         "Backtrace to provide in any support request:\033[2;34m"
     $stderr.puts e.backtrace
     $stderr.puts "\033[0m"
