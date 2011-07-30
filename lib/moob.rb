@@ -55,6 +55,6 @@ module Moob
     end
 
     def self.inform msg
-        $stderr.puts "\036[31m#{msg}\033[0m" if $VERBOSE
+        $stderr.puts "\033[36m#{msg}\033[0m" if $VERBOSE
     end
 end
