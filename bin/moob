@@ -76,21 +76,21 @@ begin
     options[:machines].each do |h|
         lom = Moob.lom options[:type], h, options
 
-        puts "Trying to authenticate to #{h}..." if $VERBOSE
+        Moob.inform "Trying to authenticate to #{h}..."
         lom.authenticate
-        puts "Authenticated on #{h}." if $VERBOSE
+        Moob.inform "Authenticated on #{h}."
 
         options[:actions].each do |action|
             action = action.to_sym
+            Moob.inform "Trying to perform #{action} on #{h}..."
             case action
             when :jnlp
                 Moob.start_jnlp lom
             else
-                puts "Trying to perform #{action} on #{h}..." if $VERBOSE
                 res = lom.send action
-                puts "Performed #{action} on #{h}." if $VERBOSE
                 puts res if res
             end
+            Moob.inform "Performed #{action} on #{h}."
         end
 
         lom.logout

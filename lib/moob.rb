@@ -25,10 +25,10 @@ module Moob
         case type
         when :auto
             TYPES.find do |sym, klass|
-                puts "Trying type #{sym}..." if $VERBOSE
+                Moob.inform "Trying type #{sym}..."
                 lom = klass.new hostname, options
                 if lom.detect
-                    puts "Type #{sym} detected." if $VERBOSE
+                    Moob.inform "Type #{sym} detected."
                     return lom
                 end
                 false
@@ -52,5 +52,9 @@ module Moob
         end
 
         raise Exception.new "javaws failed" unless system "javaws -wait #{filepath}"
+    end
+
+    def self.inform msg
+        $stderr.puts "\036[31m#{msg}\033[0m" if $VERBOSE
     end
 end
