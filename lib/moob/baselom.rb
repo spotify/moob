@@ -1,6 +1,7 @@
 require 'socket'
 require 'cgi'
 require 'patron'
+require 'json'
 require 'set'
 
 class Moob::BaseLom

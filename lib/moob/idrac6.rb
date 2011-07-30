@@ -174,9 +174,7 @@ class Idrac6 < BaseLom
 
     action :infos, 'Get system information'
     def infos
-        return get_infos(INFO_FIELDS).collect do |k,v|
-            "#{k}: #{v}"
-        end.join "\n"
+        return JSON.pretty_generate get_infos INFO_FIELDS
     end
 end
 end
