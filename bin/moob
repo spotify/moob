@@ -94,6 +94,7 @@ begin
         end
 
         lom.logout
+        Moob.inform "Logged out of #{h}."
     end
     puts 'There might be a delay before Java Web Start shows up...' if options[:action] == :jnlp
 
