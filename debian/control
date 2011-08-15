@@ -1,0 +1,16 @@
+Source: ruby-moob
+Section: ruby
+Priority: optional
+Maintainer: Pierre Carrier <pierre@gcarrier.fr>
+DM-Upload-Allowed: yes
+Build-Depends: debhelper (>= 7.0.50~), gem2deb (>= 0.2.3~)
+Standards-Version: 3.9.1
+Homepage: http://github.com/pcarrier/moob
+XS-Ruby-Versions: all
+
+Package: ruby-moob
+Architecture: all
+XB-Ruby-Versions: ${ruby:Versions}
+Depends: ${shlibs:Depends}, ${misc:Depends}, ruby | ruby-interpreter, ruby-patron (~> 0.4.14, runtime), libjson-ruby
+Description: Manage Out-Of-Band!
+ Control systems using Web-based out-of-band managers without a browser
