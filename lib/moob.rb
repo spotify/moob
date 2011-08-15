@@ -14,11 +14,13 @@ module Moob
     autoload :Idrac6,     'moob/idrac6.rb'
     autoload :Megatrends, 'moob/megatrends.rb'
     autoload :SunILom,    'moob/sunilom.rb'
+    autoload :IbmEServer, 'moob/ibmeserver.rb'
 
     TYPES = {
         :idrac6     => Idrac6,
         :megatrends => Megatrends,
-        :sun        => SunILom
+        :sun        => SunILom,
+        :ibm        => IbmEServer
     }
 
     def self.lom type, hostname, options = {}
