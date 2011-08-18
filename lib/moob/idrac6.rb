@@ -167,21 +167,6 @@ class Idrac6 < BaseLom
         class_eval %{def #{name}; boot_on #{code}; end}
     end
 
-    def get_infos keys
-        infos = @session.post "data?get=#{keys.join(',')}", {}
-
-        raise ResponseError.new infos unless infos.status == 200
-        raise Exception.new "The status isn't OK" unless infos.body =~ /<status>ok<\/status>/
-
-        return Hash[keys.collect do |k|
-            if infos.body =~ /<#{k}>(.*?)<\/#{k}>/
-                [k, $1]
-            else
-                [k, nil]
-            end
-        end]
-    end
-
     action :pstatus, 'Power status'
     def pstatus
         case get_infos(['pwState'])['pwState']
@@ -197,6 +182,21 @@ class Idrac6 < BaseLom
     action :infos, 'Get system information'
     def infos
         return JSON.pretty_generate get_infos INFO_FIELDS
+    end
+
+    def get_infos keys
+        infos = @session.post "data?get=#{keys.join(',')}", {}
+
+        raise ResponseError.new infos unless infos.status == 200
+        raise Exception.new "The status isn't OK" unless infos.body =~ /<status>ok<\/status>/
+
+        return Hash[keys.collect do |k|
+            if infos.body =~ /<#{k}>(.*?)<\/#{k}>/
+                [k, $1]
+            else
+                [k, nil]
+            end
+        end]
     end
 end
 end
