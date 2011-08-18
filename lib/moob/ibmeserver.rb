@@ -9,13 +9,16 @@ class IbmEServer < BaseLom
     end
 
     def authenticate
+        @session.handle_cookies nil
+
+        home = @session.get ''
+        raise ResponseError.new home unless home.status == 200
+
         auth = @session.post 'private/check_userlogin', {
             'userid' => @username,
             'passwd' => @password
         }
-
         raise ResponseError.new auth unless auth.status == 200
-        raise Exception.new "Auth failed" unless auth.body =~ /\/private\/welcome.ssi/
 
         init = @session.post 'private/start_menus', {
           'JUNK' => '1',
@@ -28,21 +31,7 @@ class IbmEServer < BaseLom
 
     action :infos, 'Vital Product Data'
     def infos
-      page = @session.get 'private/vpd.ssi'
-      raise ResponseError.new page unless page.status == 200
-
-      infos = {}
-
-      infos[:macs] = Hash[
-        page.body.scan(/<TR><TD[^>]*>MAC ([^<:]*):<\/TD><TD[^>]>([^<]*)<\/TD><\/TR>/)
-      ]
-
-      infos[:type]   = grab page, 'Machine type'
-      infos[:model]  = grab page, 'Machine model'
-      infos[:serial] = grab page, 'Serial number'
-      infos[:uuid]   = grab page, 'UUID'
-
-      return JSON.pretty_generate infos
+      return JSON.pretty_generate get_infos
     end
 
     def detect
@@ -59,11 +48,28 @@ class IbmEServer < BaseLom
       raise ResponseError.new page unless page.status == 200
     end
 
+    def get_infos
+      page = @session.get 'private/vpd.ssi'
+      raise ResponseError.new page unless page.status == 200
+
+      infos = {}
+
+      infos[:macs] = Hash[
+        page.body.scan /<TR><TD[^>]*>MAC ([^:]*):<\/TD><TD[^>]*>([^<]*)<\/TD><\/TR>/
+      ]
+
+      infos[:type]   = grab page.body, 'Machine type'
+      infos[:model]  = grab page.body, 'Machine model'
+      infos[:serial] = grab page.body, 'Serial number'
+      infos[:uuid]   = grab page.body, 'UUID'
+    end
+
     private
-    def grab page, name
-      if page =~ /<TR><TD[^>]*>#{name}:<\/TD><TD[^>]*>([^<]*)<\/TD><\/TR>/
+    def grab contents, name
+      if contents =~ /<TR><TD[^>]*>#{name}:<\/TD><TD[^>]*>([^<]*)<\/TD><\/TR>/
         return $1
       end
     end
+
 end
 end
