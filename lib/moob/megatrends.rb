@@ -30,7 +30,7 @@ class Megatrends < BaseLom
     def detect
         begin
             home = @session.get 'page/login.html'
-            home.body =~ /\.\.\/res\/banner_right.png/
+            home.body =~ /\.\.\/res\/banner_right\.png/
         rescue
             false
         end
