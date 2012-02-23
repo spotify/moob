@@ -19,6 +19,7 @@ class Moob::BaseLom
         @session.connect_timeout = 10_000
         @session.timeout = 10_000
         @session.insecure = true
+        @session.default_response_charset = 'ISO-8859-1'
     end
 
     def logout
