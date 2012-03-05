@@ -1,23 +1,23 @@
-    moob: simple cli to various crappy LOMs
-    ----
-    
-    moob currently has support for Dell iDrac6, Megatrends, Sun and IBM remote management.
-    
-        Usage: moob [options]
-            -t, --type t                     LOM type, 'auto' for autodetection, 'list' to list
-                                             Defaults to auto
-            -a, --actions a,b,c              Actions to perform, 'list' to list
-                                             Defaults to jnlp
-            -u, --username u                 LOM username
-                                             Defaults to the model's default if known
-            -p, --password p                 LOM password
-                                             Defaults to the model's default if known
-                                             Use the environment variable PASSWORD instead!
-            -m, --machines a,b,c             Comma-separated list of LOM hostnames
-            -v, --verbose
-    
-    moob supports the following actions:
-    
+moob: simple cli to various crappy LOMs
+----
+
+moob currently has support for Dell iDrac6, Megatrends, Sun and IBM remote management.
+
+    Usage: moob [options]
+        -t, --type t                     LOM type, 'auto' for autodetection, 'list' to list
+                                         Defaults to auto
+        -a, --actions a,b,c              Actions to perform, 'list' to list
+                                         Defaults to jnlp
+        -u, --username u                 LOM username
+                                         Defaults to the model's default if known
+        -p, --password p                 LOM password
+                                         Defaults to the model's default if known
+                                         Use the environment variable PASSWORD instead!
+        -m, --machines a,b,c             Comma-separated list of LOM hostnames
+        -v, --verbose
+
+moob supports the following actions:
+
     idrac6:
       jnlp: Remote control
       poff: Power Off System
