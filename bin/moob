@@ -7,7 +7,7 @@ options = {
     :actions => [:jnlp],
     :type => :auto,
     :machines => [],
-    :password => ENV['password']
+    :password => ENV['PASSWORD']
 }
 
 OptionParser.new do |opts|
