@@ -84,8 +84,8 @@ class Idrac6 < BaseLom
         raise ResponseError.new auth unless auth.status == 200
 
         auth.body =~ /<authResult>([^<]+)<\/authResult>/
-        raise Exception.new 'Cannot find auth result' unless $&
-        raise Exception.new "Auth failed with: \"#{auth.body}\"" unless $1 == "0"
+        raise 'Cannot find auth result' unless $&
+        raise "Auth failed with: \"#{auth.body}\"" unless $1 == "0"
         return self
     end
 
@@ -110,11 +110,11 @@ class Idrac6 < BaseLom
         raise ResponseError.new idx unless idx.status == 200
 
         idx.body =~ /var DnsName += +"([^"]+)"/
-        raise Exception.new "Couldn't find the DNS name" unless $&
+        raise "Couldn't find the DNS name" unless $&
         dns_name = $1
 
         idx.body =~ /var sysNameStr += +"([^"]+)"/
-        raise Exception.new "Couldn't find the system name" unless $&
+        raise "Couldn't find the system name" unless $&
         sys_name = $1 # eg PowerEdge R610
 
         # eg escaped "idrac-A1BCD2E, PowerEdge R610, User:root"
@@ -188,7 +188,7 @@ class Idrac6 < BaseLom
         infos = @session.post "data?get=#{keys.join(',')}", {}
 
         raise ResponseError.new infos unless infos.status == 200
-        raise Exception.new "The status isn't OK" unless infos.body =~ /<status>ok<\/status>/
+        raise "The status isn't OK" unless infos.body =~ /<status>ok<\/status>/
 
         return Hash[keys.collect do |k|
             if infos.body =~ /<#{k}>(.*?)<\/#{k}>/

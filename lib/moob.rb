@@ -35,7 +35,7 @@ module Moob
                 end
                 false
             end
-            raise RuntimeError.new "Couldn't detect a known LOM type"
+            raise "Couldn't detect a known LOM type"
         else
             return TYPES[type].new hostname, options
         end
@@ -45,7 +45,7 @@ module Moob
         jnlp = lom.jnlp
 
         unless jnlp[/<\/jnlp>/]
-            raise RuntimeError.new "Invalid JNLP file (\"#{jnlp}\")"
+            raise "Invalid JNLP file (\"#{jnlp}\")"
         end
 
         filepath = "/tmp/#{lom.hostname}_#{Time.now.to_i}.jnlp"
@@ -53,7 +53,7 @@ module Moob
             f.write jnlp
         end
 
-        raise Exception.new "javaws failed" unless system "javaws -wait #{filepath}"
+        raise "javaws failed" unless system "javaws -wait #{filepath}"
     end
 
     def self.inform msg

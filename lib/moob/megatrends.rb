@@ -9,7 +9,7 @@ class Megatrends < BaseLom
         begin
             @ip = Socket.getaddrinfo(hostname, nil)[0][3]
         rescue
-            raise Exception.new "Couldn't resolve \"#{hostname}\""
+            raise "Couldn't resolve \"#{hostname}\""
         end
         @session.base_url = "https://#{@ip}/"
     end
@@ -21,7 +21,7 @@ class Megatrends < BaseLom
         raise ResponseError.new auth unless auth.status == 200
 
         auth.body =~ /'SESSION_COOKIE' *: *'([^']+)'/
-        raise Exception.new "Couldn't find auth cookie in \"#{auth.body}\"" unless $&
+        raise "Couldn't find auth cookie in \"#{auth.body}\"" unless $&
 
         @cookie = "test=1; path=/; SessionCookie=#{$1}"
         return self
@@ -51,7 +51,7 @@ class Megatrends < BaseLom
             { 'Cookie' => @cookie }
         raise ResponseError.new req unless req.status == 200
         unless req.body =~ /WEBVAR_STRUCTNAME_HL_POWERSTATUS/
-            raise Exception.new 'The answer looks wrong'
+            raise 'The answer looks wrong'
         end
         return nil
     end
@@ -72,7 +72,7 @@ class Megatrends < BaseLom
         status = @session.get 'rpc/hoststatus.asp',
             { 'Cookie' => @cookie }
         raise ResponseError.new status unless status.status == 200
-        raise Exception.new 'Couldn\'t read the state' unless status.body =~ /'JF_STATE' : (.),/
+        raise 'Couldn\'t read the state' unless status.body =~ /'JF_STATE' : (.),/
         case $1
         when '0'
             return :off

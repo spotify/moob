@@ -23,11 +23,11 @@ class SunILom < BaseLom
                 error = "\"#{$1.gsub /<[^>]+>/, ''}\""
             end
 
-            raise Exception.new "Auth failed (#{error})"
+            raise "Auth failed (#{error})"
         end
 
         auth.body =~ /SetWebSessionString\("([^"]+)","([^"]+)"\);/
-        raise Exception.new "Couldn't find session cookie in \"#{auth.body}\"" unless $&
+        raise "Couldn't find session cookie in \"#{auth.body}\"" unless $&
 
         @cookie = "#{$1}=#{$2}; langsetting=EN"
         return self
