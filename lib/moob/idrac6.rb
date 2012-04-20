@@ -1,71 +1,21 @@
 module Moob
 class Idrac6 < BaseLom
-    @name = 'Dell iDrac 6'
+  @name = 'Dell iDrac 6'
 
-    INFO_FIELDS = %w{
-        sysDesc
-        biosVer
-        svcTag
-        expSvcCode
-        hostName
-        osName
-        osVersion
-        sysRev
-        LCCfwVersion
-        recoveryAction
-        initCountdown
-        presentCountdown
-        datetime
-        fwVersion
-        fwUpdated
-        hwVersion
-        macAddr
-        v4Enabled
-        v4IPAddr
-        v4Gateway
-        v4NetMask
-        v4DHCPEnabled
-        v4DHCPServers
-        v4DNS1
-        v4DNS2
-        v6Enabled
-        v6Addr
-        v6Gateway
-        v6DHCPEnabled
-        v6LinkLocal
-        v6Prefix
-        v6SiteLocal
-        v6SiteLocal3
-        v6SiteLocal4
-        v6SiteLocal5
-        v6SiteLocal6
-        v6SiteLocal7
-        v6SiteLocal8
-        v6SiteLocal9
-        v6SiteLocal10
-        v6SiteLocal11
-        v6SiteLocal12
-        v6SiteLocal13
-        v6SiteLocal14
-        v6SiteLocal15
-        racName
-        v6DHCPServers
-        v6DNS1
-        v6DNS2
-        vmBootOnce
-        firstBootDevice
-        NicEtherMac1
-        NicEtherMac2
-        NicEtherMac3
-        NicEtherMac4
-        NiciSCSIMac1
-        NiciSCSIMac2
-        NiciSCSIMac3
-        NiciSCSIMac4
-        NicEtherVMac1
-        NicEtherVMac2
-        NicEtherVMac3
-        NicEtherVMac4
+  INFO_FIELDS = %w{  biosVer svcTag expSvcCode hostName
+    osName osVersion sysDesc sysRev datetime initCountdown presentCountdown
+    fwVersion fwUpdated LCCfwVersion
+    firstBootDevice vmBootOnce
+    racName hwVersionmacAddr recoveryAction
+    NicEtherMac1  NicEtherMac2  NicEtherMac3  NicEtherMac4
+    NiciSCSIMac1  NiciSCSIMac2  NiciSCSIMac3  NiciSCSIMac4
+    NicEtherVMac1 NicEtherVMac2 NicEtherVMac3 NicEtherVMac4
+    v4Enabled v4IPAddr v4Gateway v4NetMask
+    v6Enabled v6Addr   v6Gateway v6Prefix v6LinkLocal
+    v4DHCPEnabled v4DHCPServers v4DNS1 v4DNS2
+    v6DHCPEnabled v6DHCPServers v6DNS1 v6DNS2
+    v6SiteLocal v6SiteLocal3 v6SiteLocal4 v6SiteLocal5 v6SiteLocal6 v6SiteLocal7 v6SiteLocal8
+    v6SiteLocal9 v6SiteLocal10 v6SiteLocal11 v6SiteLocal12 v6SiteLocal13 v6SiteLocal14 v6SiteLocal15
     }
 
     def initialize hostname, options = {}
