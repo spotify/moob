@@ -5,7 +5,7 @@ Maintainer: Pierre Carrier <pierre@gcarrier.fr>
 DM-Upload-Allowed: yes
 Build-Depends: debhelper (>= 7.0.50~), gem2deb (>= 0.2.3~)
 Standards-Version: 3.9.1
-Homepage: http://github.com/pcarrier/moob
+Homepage: https://github.com/spotify/moob
 XS-Ruby-Versions: all
 
 Package: ruby-moob
