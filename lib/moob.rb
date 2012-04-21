@@ -37,6 +37,7 @@ module Moob
       end
       raise 'Couldn\'t detect a known LOM type'
     else
+      raise "Type #{type} unknown" unless TYPES[type]
       return TYPES[type].new hostname, options
     end
   end
