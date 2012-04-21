@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.version     = Moob::VERSION.join '.'
   s.platform    = Gem::Platform::RUBY
   s.authors     = ['Pierre Carrier']
-  s.email       = ['pierre@gcarrier.fr']
+  s.email       = ['pierre@spotify.com']
   s.homepage    = "https://github.com/spotify/moob"
   s.summary     = 'Manage Out-Of-Band!'
   s.description = 'Control systems using Web-based out-of-band managers without a browser'

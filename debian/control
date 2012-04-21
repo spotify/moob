@@ -1,7 +1,7 @@
 Source: ruby-moob
 Section: ruby
 Priority: optional
-Maintainer: Pierre Carrier <pierre@gcarrier.fr>
+Maintainer: Pierre Carrier <pierre@spotify.com>
 DM-Upload-Allowed: yes
 Build-Depends: debhelper (>= 7.0.50~), gem2deb (>= 0.2.3~)
 Standards-Version: 3.9.1
