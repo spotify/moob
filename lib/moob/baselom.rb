@@ -5,42 +5,42 @@ require 'json'
 require 'set'
 
 class Moob::BaseLom
-    @name = "Unknown"
+  @name = "Unknown"
 
-    def initialize hostname, options = {}
-        @hostname = hostname
-        @username = options[:username]
-        @password = options[:password]
+  def initialize hostname, options = {}
+    @hostname = hostname
+    @username = options[:username]
+    @password = options[:password]
 
-        @session  = Patron::Session.new
-        @session.headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; '\
-            'Intel Mac OS X 10.7; rv:5.0.1) Gecko/20100101 Firefox/5.0.1'
-        @session.base_url = "https://#{hostname}/"
-        @session.connect_timeout = 10_000
-        @session.timeout = 10_000
-        @session.insecure = true
-        @session.default_response_charset = 'ISO-8859-1'
-    end
+    @session  = Patron::Session.new
+    @session.headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; '\
+      'Intel Mac OS X 10.7; rv:5.0.1) Gecko/20100101 Firefox/5.0.1'
+    @session.base_url = "https://#{hostname}/"
+    @session.connect_timeout = 10_000
+    @session.timeout = 10_000
+    @session.insecure = true
+    @session.default_response_charset = 'ISO-8859-1'
+  end
 
-    def logout
-    end
+  def logout
+  end
 
-    attr_reader :hostname, :username
+  attr_reader :hostname, :username
 
-    def detect
-        false
-    end
+  def detect
+    false
+  end
 
-    def self.name
-        @name
-    end
+  def self.name
+    @name
+  end
 
-    def self.actions
-        @actions
-    end
+  def self.actions
+    @actions
+  end
 
-    def self.action sym, descr
-        @actions ||= []
-        @actions << [sym, descr]
-    end
+  def self.action sym, descr
+    @actions ||= []
+    @actions << [sym, descr]
+  end
 end
