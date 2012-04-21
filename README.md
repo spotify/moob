@@ -27,4 +27,10 @@ Use `-h` for the complete documentation.
 
 For example, to install via PXE `foo` and `bar`, servers managed by Dell iDrac6, disregarding their current boot settings and whether they are already up:
 
-        # moob -vm foo.lom.example.com,bar.lom.example.com -a bpxe,preset,pon
+        # moob -vm foo.lom.example.com,bar.lom.example.com -a bpxe,preset,pon -t idrac6
+
+Known issues
+------------
+
+* Type detection is slow and can typically take 30 seconds with some models and over slow links. Whenever the model is known, `-t` is highly recommended.
+* iDrac6 works fine with R410, R510 and R610 models but failed with PowerEdge 2900 models.
