@@ -2,7 +2,8 @@ module Moob
 class Idrac6 < BaseLom
   @name = 'Dell iDrac 6'
 
-  INFO_FIELDS = %w{  biosVer svcTag expSvcCode hostName
+  INFO_FIELDS = %w[
+    biosVer svcTag expSvcCode hostName
     osName osVersion sysDesc sysRev datetime initCountdown presentCountdown
     fwVersion fwUpdated LCCfwVersion
     firstBootDevice vmBootOnce
@@ -16,7 +17,7 @@ class Idrac6 < BaseLom
     v6DHCPEnabled v6DHCPServers v6DNS1 v6DNS2
     v6SiteLocal v6SiteLocal3 v6SiteLocal4 v6SiteLocal5 v6SiteLocal6 v6SiteLocal7 v6SiteLocal8
     v6SiteLocal9 v6SiteLocal10 v6SiteLocal11 v6SiteLocal12 v6SiteLocal13 v6SiteLocal14 v6SiteLocal15
-  }
+  ]
 
   def initialize hostname, options = {}
     super hostname, options
