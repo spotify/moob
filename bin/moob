@@ -7,7 +7,8 @@ options = {
   :actions => [:jnlp],
   :type => :auto,
   :machines => [],
-  :password => ENV['PASSWORD']
+  :password => ENV['PASSWORD'],
+  :transport => 'https',
 }
 
 OptionParser.new do |opts|
@@ -60,6 +61,10 @@ OptionParser.new do |opts|
   opts.on '-m', '--machines a,b,c', Array,
   'Comma-separated list of LOM hostnames (or - to read from stdin)' do |m|
     options[:machines] = m
+  end
+
+  opts.on '-n', '--no-ssl' do
+    options[:transport] = 'http'
   end
 
   opts.on '-v', '--verbose' do

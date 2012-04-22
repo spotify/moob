@@ -11,7 +11,7 @@ class Megatrends < BaseLom
     rescue
       raise "Couldn't resolve \"#{hostname}\""
     end
-    @session.base_url = "https://#{@ip}/"
+    @session.base_url = "#{@transport}://#{@ip}/"
   end
 
   def authenticate
