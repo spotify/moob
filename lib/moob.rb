@@ -17,10 +17,10 @@ module Moob
   autoload :IbmEServer, 'moob/ibmeserver.rb'
 
   TYPES = {
-    :idrac6   => Idrac6,
+    :idrac6     => Idrac6,
     :megatrends => Megatrends,
-    :sun    => SunILom,
-    :ibm    => IbmEServer
+    :sun        => SunILom,
+    :ibm        => IbmEServer
   }
 
   def self.lom type, hostname, options = {}
