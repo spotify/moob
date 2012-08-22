@@ -1,5 +1,5 @@
 module Moob
-  VERSION = [0,3,4]
+  VERSION = [0,3,5,1]
 
   class ResponseError < Exception
     def initialize response
@@ -15,9 +15,11 @@ module Moob
   autoload :Megatrends, 'moob/megatrends.rb'
   autoload :SunILom,    'moob/sunilom.rb'
   autoload :IbmEServer, 'moob/ibmeserver.rb'
+  autoload :Idrac7,     'moob/idrac7.rb'
 
   TYPES = {
     :idrac6     => Idrac6,
+    :idrac7     => Idrac7,
     :megatrends => Megatrends,
     :sun        => SunILom,
     :ibm        => IbmEServer
