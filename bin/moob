@@ -87,21 +87,23 @@ begin
     lom.authenticate
     Moob.inform "Authenticated on #{h}."
 
-    options[:actions].each do |action|
-      action = action.to_sym
-      Moob.inform "Trying to perform #{action} on #{h}..."
-      case action
-      when :jnlp
-        Moob.start_jnlp lom
-      else
-        res = lom.send action
-        puts res if res
+    begin
+      options[:actions].each do |action|
+        action = action.to_sym
+        Moob.inform "Trying to perform #{action} on #{h}..."
+        case action
+        when :jnlp
+          Moob.start_jnlp lom
+        else
+          res = lom.send action
+          puts res if res
+        end
+        Moob.inform "Performed #{action} on #{h}."
       end
-      Moob.inform "Performed #{action} on #{h}."
+    ensure
+      lom.logout
+      Moob.inform "Logged out of #{h}."
     end
-
-    lom.logout
-    Moob.inform "Logged out of #{h}."
   end
   puts 'There might be a delay before Java Web Start shows up...' if options[:action] == :jnlp
 

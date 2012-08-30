@@ -12,10 +12,10 @@ module Moob
 
   autoload :BaseLom,    'moob/baselom.rb'
   autoload :Idrac6,     'moob/idrac6.rb'
+  autoload :Idrac7,     'moob/idrac7.rb'
   autoload :Megatrends, 'moob/megatrends.rb'
   autoload :SunILom,    'moob/sunilom.rb'
   autoload :IbmEServer, 'moob/ibmeserver.rb'
-  autoload :Idrac7,     'moob/idrac7.rb'
 
   TYPES = {
     :idrac6     => Idrac6,

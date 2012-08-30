@@ -26,23 +26,42 @@ class Idrac7 < BaseLom
   end
 
   def authenticate
-    @session.handle_cookies nil
-    start = @session.get 'start.html'
-    raise ResponseError.new start unless start.status == 200
+    @session.handle_cookies("./cookies.txt")
 
-    auth = @session.post 'data/login',
-      "user=#{@username}&password=#{@password}"
+    login = @session.get 'login.html'
+
+    raise ResponseError.new login unless login.status == 200
+
+    auth = @session.post 'data/login', "user=#{@username}&password=#{@password}"
+
     raise ResponseError.new auth unless auth.status == 200
 
     auth.body =~ /<authResult>([^<]+)<\/authResult>/
+
     raise 'Cannot find auth result' unless $&
     raise "Auth failed with: \"#{auth.body}\"" unless $1 == "0"
+
     auth.body =~ /<forwardUrl>([^<]+)<\/forwardUrl>/
+
     raise "Cannot find the authenticated index url after auth" unless $&
+
     @indexurl = $1
     @authhash = @indexurl.split('?')[1]
+
+    @index = @session.get @indexurl
+
+    # someone decided it was a good idea to include a ST2 token in every XHR
+    # request. We need it for a lot of our features.
+    @index.body =~ /var TOKEN_VALUE = "([0-9a-f]+)";/
+    raise ResponseError.new @index unless @index.status == 200
+    @st2 = $1
+
+    @session.headers['ST2'] = @st2
+
     puts @authhash
     puts @indexurl
+    puts "ST2: #{@st2}"
+
     return self
   end
 
@@ -55,22 +74,20 @@ class Idrac7 < BaseLom
   def detect
     begin
       home = @session.get 'login.html'
-      home.body =~ /Integrated Dell Remote Access Controller 6/
+      home.body =~ /Integrated Dell Remote Access Controller 7/
     rescue
       false
     end
   end
 
   action :jnlp, 'Remote control'
-  def jnlp
-    idx = @session.get @indexurl
-    raise ResponseError.new idx unless idx.status == 200
 
-    idx.body =~ /var tmpHN += +"([^"]+)"/
+  def jnlp
+    @index.body =~ /var tmpHN += +"([^"]+)"/
     raise "Couldn't find the DNS name" unless $&
     dns_name = $1
 
-    idx.body =~ /var sysNameStr += +"([^"]+)"/
+    @index.body =~ /var sysNameStr += +"([^"]+)"/
     raise "Couldn't find the system name" unless $&
     sys_name = $1 # eg PowerEdge R610
 
@@ -142,8 +159,7 @@ class Idrac7 < BaseLom
   end
 
   def get_infos keys
-    puts @authhash
-    infos = @session.post "data?get=#{keys.join(',')}&#{@authhash}", {}
+    infos = @session.post "data?get=#{keys.join(',')}", {}
 
     raise ResponseError.new infos unless infos.status == 200
     raise "The status isn't OK" unless infos.body =~ /<status>ok<\/status>/
