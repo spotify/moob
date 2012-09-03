@@ -23,6 +23,7 @@ class Idrac7 < BaseLom
     super hostname, options
     @username ||= 'root'
     @password ||= 'calvin'
+    @index = nil
   end
 
   def authenticate
@@ -43,7 +44,7 @@ class Idrac7 < BaseLom
 
     auth.body =~ /<forwardUrl>([^<]+)<\/forwardUrl>/
 
-    raise "Cannot find the authenticated index url after auth" unless $&
+    raise 'Cannot find the authenticated index url after auth' unless $&
 
     @indexurl = $1
     @authhash = @indexurl.split('?')[1]
