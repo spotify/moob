@@ -59,10 +59,6 @@ class Idrac7 < BaseLom
 
     @session.headers['ST2'] = @st2
 
-    puts @authhash
-    puts @indexurl
-    puts "ST2: #{@st2}"
-
     return self
   end
 
