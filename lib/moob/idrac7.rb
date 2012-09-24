@@ -27,7 +27,7 @@ class Idrac7 < BaseLom
   end
 
   def authenticate
-    @session.handle_cookies("./cookies.txt")
+    @session.handle_cookies nil
 
     login = @session.get 'login.html'
 
