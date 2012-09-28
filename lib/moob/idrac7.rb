@@ -27,7 +27,7 @@ class Idrac7 < BaseLom
   end
 
   def authenticate
-    @session.handle_cookies("./cookies.txt")
+    @session.handle_cookies nil
 
     login = @session.get 'login.html'
 
@@ -58,10 +58,6 @@ class Idrac7 < BaseLom
     @st2 = $1
 
     @session.headers['ST2'] = @st2
-
-    puts @authhash
-    puts @indexurl
-    puts "ST2: #{@st2}"
 
     return self
   end
