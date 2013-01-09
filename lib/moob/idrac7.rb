@@ -17,6 +17,7 @@ class Idrac7 < BaseLom
     v6DHCPEnabled v6DHCPServers v6DNS1 v6DNS2
     v6SiteLocal v6SiteLocal3 v6SiteLocal4 v6SiteLocal5 v6SiteLocal6 v6SiteLocal7 v6SiteLocal8
     v6SiteLocal9 v6SiteLocal10 v6SiteLocal11 v6SiteLocal12 v6SiteLocal13 v6SiteLocal14 v6SiteLocal15
+    ipmiLAN ipmiMinPriv ipmiKey
   ]
 
   def initialize hostname, options = {}
@@ -169,5 +170,13 @@ class Idrac7 < BaseLom
       end
     end]
   end
+
+  action :enable_ipmi, 'Enable IPMI over LAN (on LOM port)'
+  def enable_ipmi
+    req = @session.post 'data?set=ipmiLAN:1', {}
+    raise ResponseError.new req unless req.status == 200
+    return nil
+  end
+
 end
 end
