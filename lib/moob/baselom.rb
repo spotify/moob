@@ -17,8 +17,8 @@ class Moob::BaseLom
     @session.headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; '\
       'Intel Mac OS X 10.7; rv:5.0.1) Gecko/20100101 Firefox/5.0.1'
     @session.base_url = "#{@transport}://#{hostname}/"
-    @session.connect_timeout = 10_000
-    @session.timeout = 10_000
+    @session.connect_timeout = 30
+    @session.timeout = 30
     @session.insecure = true
     @session.default_response_charset = 'ISO-8859-1'
   end
