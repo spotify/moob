@@ -48,6 +48,15 @@ class Idrac7 < BaseLom
     raise 'Cannot find the authenticated index url after auth' unless $&
 
     @indexurl = $1
+
+    #1.30.30 (Build 43) introduced a nag to change credentials. bypass it.
+
+    if @indexurl =~ /defaultCred/
+      @indexurl.gsub!(/defaultCred/,'index')
+      Moob.warn "iDRAC recommends you should change the default credentials!"
+    end
+
+    Moob.inform "Requesting indexurl of #{@indexurl}"
     @authhash = @indexurl.split('?')[1]
 
     @index = @session.get @indexurl
