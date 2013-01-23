@@ -1,5 +1,5 @@
 module Moob
-  VERSION = [0,3,7]
+  VERSION = [0,3,8]
 
   class ResponseError < Exception
     def initialize response
@@ -61,5 +61,9 @@ module Moob
 
   def self.inform msg
     $stderr.puts "\033[36m#{msg}\033[0m" if $VERBOSE
+  end
+
+  def self.warn msg
+    $stderr.puts "\033[36m#{msg}\033[0m"
   end
 end
