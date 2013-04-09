@@ -70,6 +70,12 @@ OptionParser.new do |opts|
   opts.on '-v', '--verbose' do
     $VERBOSE = true
   end
+
+  opts.on '-V', '--version',
+  'Prints version string and exits' do
+    puts "moob #{Moob::VERSION.join('.')}"
+    exit 0
+  end
 end.parse!
 
 if options[:machines].empty?

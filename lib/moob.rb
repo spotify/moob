@@ -25,12 +25,14 @@ module Moob
     :ibm        => IbmEServer
   }
 
+  AUTODETECT_ORDER = [ :idrac7, :idrac6, :megatrends, :sun, :ibm ]
+
   def self.lom type, hostname, options = {}
     case type
     when :auto
-      TYPES.find do |sym, klass|
+      AUTODETECT_ORDER.each do |sym|
         Moob.inform "Trying type #{sym}..."
-        lom = klass.new hostname, options
+        lom = TYPES[sym].new hostname, options
         if lom.detect
           Moob.inform "Type #{sym} detected."
           return lom
