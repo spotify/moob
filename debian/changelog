@@ -1,3 +1,10 @@
+ruby-moob (0.3.9-1) precise; urgency=low
+
+  * New upstream release
+  * Add a version flag and adjust types order
+
+ -- Nathan Ferch <nf@spotify.com>  Wed, 10 Apr 2013 19:24:01 +0000
+
 ruby-moob (0.3.8-1) precise; urgency=low
 
   * New upstream release

@@ -1,5 +1,5 @@
 module Moob
-  VERSION = [0,3,8]
+  VERSION = [0,3,9]
 
   class ResponseError < Exception
     def initialize response
