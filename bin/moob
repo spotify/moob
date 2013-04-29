@@ -45,6 +45,12 @@ OptionParser.new do |opts|
     end
   end
 
+  opts.on '-r', '--params foo=bar,dead=beef', Array,
+  'Comma-separated list of parameter/value pairs to use with set_params action' do |a|
+    options[:params]=a.inject({}) { |r, i| s=i.split('='); r[s[0]]=s[1]; r}
+  end
+
+
   opts.on '-u', '--username u',
   'LOM username',
   'Defaults to the model\'s default if known' do |u|

@@ -17,7 +17,7 @@ class Idrac6 < BaseLom
     v6DHCPEnabled v6DHCPServers v6DNS1 v6DNS2
     v6SiteLocal v6SiteLocal3 v6SiteLocal4 v6SiteLocal5 v6SiteLocal6 v6SiteLocal7 v6SiteLocal8
     v6SiteLocal9 v6SiteLocal10 v6SiteLocal11 v6SiteLocal12 v6SiteLocal13 v6SiteLocal14 v6SiteLocal15
-    ipmiLAN ipmiMinPriv
+    ipmiLAN ipmiMinPriv hostname
   ]
 
   def initialize hostname, options = {}
@@ -151,10 +151,24 @@ class Idrac6 < BaseLom
     end]
   end
 
+  action :set_params, 'Set iDRAC parameters'
+  def set_params
+    unless @params
+      raise "Params are not set!"
+    end
+    drac_set_params @params
+  end
+
   action :enable_ipmi, 'Enable IPMI over LAN (on LOM port)'
   def enable_ipmi
-    req = @session.post 'data?set=ipmiLAN:1', {}
-    raise ResponseError.new req unless req.status == 200
+    drac_set_params({ 'ipmiLAN' => 1 })
+  end
+
+  def drac_set_params params
+    params.each do |p,v|
+      req = @session.post "data?set=#{p}:#{v}", {}
+      raise ResponseError.new req unless req.status == 200
+    end
     return nil
   end
 

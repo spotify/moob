@@ -12,6 +12,7 @@ class Moob::BaseLom
     @transport = options[:transport] or 'https'
     @username = options[:username]
     @password = options[:password]
+    @params = options[:params]
 
     @session  = Patron::Session.new
     @session.headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; '\
