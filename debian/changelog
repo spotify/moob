@@ -1,3 +1,10 @@
+ruby-moob (0.3.10-1) precise; urgency=low
+
+  * New upstream release
+  * add set_params action, refactor enable_ipmi
+
+ -- Nathan Ferch <nf@spotify.com>  Mon, 29 Apr 2013 19:44:53 +0000
+
 ruby-moob (0.3.9-1) precise; urgency=low
 
   * New upstream release
