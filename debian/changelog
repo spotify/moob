@@ -1,3 +1,10 @@
+ruby-moob (0.3.11-1) precise; urgency=low
+
+  * New upstream release
+  * adds {show,save}_console_preview action
+
+ -- Nathan Ferch <nf@spotify.com>  Tue, 21 May 2013 18:21:27 +0000
+
 ruby-moob (0.3.10-1) precise; urgency=low
 
   * New upstream release
