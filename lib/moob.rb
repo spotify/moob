@@ -66,7 +66,11 @@ module Moob
   def self.show_console_preview lom
     imgfile, headers = lom.fetch_console_preview
 
-    Kernel.system "open #{imgfile.path}"
+    if RUBY_PLATFORM =~ /darwin/
+      raise 'open failed' unless system "open #{imgfile.path}"
+    else
+      raise 'see failed' unless system "see #{imgfile.path}"
+    end
   end
 
   def self.save_console_preview lom
