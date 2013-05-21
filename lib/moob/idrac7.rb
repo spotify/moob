@@ -201,5 +201,23 @@ class Idrac7 < BaseLom
     return nil
   end
 
+  action :show_console_preview, 'Display iDRAC console screenshot'
+  action :save_console_preview, 'Save iDRAC console screenshot'
+
+  def fetch_console_preview
+    imgfile = Tempfile.new('console_preview')
+
+    refreshreq = @session.get "data?get=consolepreview[auto%20#{Time.now.utc.to_i}]", {}
+
+    raise ResponseError.new req unless refreshreq.status == 200
+
+    req = @session.get_file "capconsole/scapture0.png?#{Time.now.utc.to_i}", imgfile.path
+
+    raise ResponseError.new req unless req.status == 200
+    raise UnexpectedContentError.new req unless req.headers['Content-type'] =~ /image\//
+
+    return imgfile, req.headers
+  end
+
 end
 end

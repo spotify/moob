@@ -1,3 +1,5 @@
+require 'fileutils'
+
 module Moob
   VERSION = [0,3,10]
 
@@ -59,6 +61,25 @@ module Moob
     end
 
     raise 'javaws failed' unless system "javaws -wait #{filepath}"
+  end
+
+  def self.show_console_preview lom
+    imgfile, headers = lom.fetch_console_preview
+
+    Kernel.system "open #{imgfile.path}"
+  end
+
+  def self.save_console_preview lom
+    imgfile, headers = lom.fetch_console_preview
+
+    timestamp=Time.parse(headers['Last-modified'])
+    fileext=headers['Content-type'].split('/')[1]
+
+    filename="#{lom.hostname}-#{timestamp.utc.iso8601(0)}.#{fileext}"
+
+    FileUtils.cp(imgfile, filename)
+
+    return filename
   end
 
   def self.inform msg

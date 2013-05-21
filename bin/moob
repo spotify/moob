@@ -108,7 +108,13 @@ begin
         case action
         when :jnlp
           Moob.start_jnlp lom
+        when :show_console_preview
+          Moob.show_console_preview lom
+        when :save_console_preview
+          savefile=Moob.save_console_preview lom
+          $stderr.puts "Console preview saved as #{savefile}"
         else
+
           res = lom.send action
           puts res if res
         end
