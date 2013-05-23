@@ -1,3 +1,6 @@
+require 'tempfile'
+require 'time'
+
 module Moob
 class Idrac6 < BaseLom
   @name = 'Dell iDrac 6'
@@ -17,7 +20,7 @@ class Idrac6 < BaseLom
     v6DHCPEnabled v6DHCPServers v6DNS1 v6DNS2
     v6SiteLocal v6SiteLocal3 v6SiteLocal4 v6SiteLocal5 v6SiteLocal6 v6SiteLocal7 v6SiteLocal8
     v6SiteLocal9 v6SiteLocal10 v6SiteLocal11 v6SiteLocal12 v6SiteLocal13 v6SiteLocal14 v6SiteLocal15
-    ipmiLAN ipmiMinPriv
+    ipmiLAN ipmiMinPriv hostname
   ]
 
   def initialize hostname, options = {}
@@ -151,11 +154,43 @@ class Idrac6 < BaseLom
     end]
   end
 
+  action :set_params, 'Set iDRAC parameters'
+  def set_params
+    unless @params
+      raise "Params are not set!"
+    end
+    drac_set_params @params
+  end
+
   action :enable_ipmi, 'Enable IPMI over LAN (on LOM port)'
   def enable_ipmi
-    req = @session.post 'data?set=ipmiLAN:1', {}
-    raise ResponseError.new req unless req.status == 200
+    drac_set_params({ 'ipmiLAN' => 1 })
+  end
+
+  def drac_set_params params
+    params.each do |p,v|
+      req = @session.post "data?set=#{p}:#{v}", {}
+      raise ResponseError.new req unless req.status == 200
+    end
     return nil
+  end
+
+  action :show_console_preview, 'Display iDRAC console screenshot'
+  action :save_console_preview, 'Save iDRAC console screenshot'
+
+  def fetch_console_preview
+    imgfile = Tempfile.new('console_preview')
+
+    refreshreq = @session.get "data?get=consolepreview[auto%20#{Time.now.utc.to_i}]", {}
+
+    raise ResponseError.new req unless refreshreq.status == 200
+
+    req = @session.get_file "capconsole/scapture0.png?#{Time.now.utc.to_i}", imgfile.path
+
+    raise ResponseError.new req unless req.status == 200
+    raise UnexpectedContentError.new req unless req.headers['Content-type'] =~ /image\//
+
+    return imgfile, req.headers
   end
 
 end

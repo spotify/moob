@@ -45,6 +45,12 @@ OptionParser.new do |opts|
     end
   end
 
+  opts.on '-r', '--params foo=bar,dead=beef', Array,
+  'Comma-separated list of parameter/value pairs to use with set_params action' do |a|
+    options[:params]=a.inject({}) { |r, i| s=i.split('='); r[s[0]]=s[1]; r}
+  end
+
+
   opts.on '-u', '--username u',
   'LOM username',
   'Defaults to the model\'s default if known' do |u|
@@ -69,6 +75,12 @@ OptionParser.new do |opts|
 
   opts.on '-v', '--verbose' do
     $VERBOSE = true
+  end
+
+  opts.on '-V', '--version',
+  'Prints version string and exits' do
+    puts "moob #{Moob::VERSION.join('.')}"
+    exit 0
   end
 end.parse!
 
@@ -96,7 +108,13 @@ begin
         case action
         when :jnlp
           Moob.start_jnlp lom
+        when :show_console_preview
+          Moob.show_console_preview lom
+        when :save_console_preview
+          savefile=Moob.save_console_preview lom
+          $stderr.puts "Console preview saved as #{savefile}"
         else
+
           res = lom.send action
           puts res if res
         end
