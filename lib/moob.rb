@@ -81,7 +81,7 @@ module Moob
 
     filename="#{lom.hostname}-#{timestamp.utc.iso8601(0)}.#{fileext}"
 
-    FileUtils.cp(imgfile, filename)
+    FileUtils.cp(imgfile.path, filename)
 
     return filename
   end

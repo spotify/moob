@@ -1,3 +1,9 @@
+ruby-moob (0.3.12-1) precise; urgency=low
+
+  * 1.8.7 bugfix
+
+ -- Nathan Ferch <nf@spotify.com>  Thu, 23 May 2013 16:43:34 +0000
+
 ruby-moob (0.3.11-1) precise; urgency=low
 
   * New upstream release
