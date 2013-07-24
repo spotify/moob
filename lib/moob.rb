@@ -1,4 +1,5 @@
 require 'fileutils'
+require 'tempfile'
 
 module Moob
   VERSION = [0,3,12]
@@ -55,12 +56,11 @@ module Moob
       raise "Invalid JNLP file (\"#{jnlp}\")"
     end
 
-    filepath = "/tmp/#{lom.hostname}_#{Time.now.to_i}.jnlp"
-    File.open filepath, 'w' do |f|
-      f.write jnlp
-    end
+    tmpfile = Tempfile.new("#{lom.hostname}_#{Time.now.to_i}.jnlp")
+    tmpfile.write jnlp
+    tmpfile.close
 
-    raise 'javaws failed' unless system "javaws -wait #{filepath}"
+    raise 'javaws failed' unless system "javaws -wait #{tmpfile.path}"
   end
 
   def self.show_console_preview lom
