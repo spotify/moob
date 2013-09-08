@@ -26,7 +26,7 @@ class Supermicro < BaseLom
   def detect
     begin
       home = @session.get '/'
-      home.body =~ /\"META NAME=\"ATEN International Co Ltd\.\"/
+      home.body =~ /META NAME=\"ATEN International Co Ltd\.\"/
     rescue
       false
     end
