@@ -47,9 +47,9 @@ class Supermicro < BaseLom
   action :pcycle,   'Power Cycle'
   action :preset,   'Power Reset'
   action :shutdown, 'Soft Power Off'
-  def poff;      power_action "(1,2)"; end
+  def poff;      power_action "(1,0)"; end
   def pon;       power_action "(1,1)"; end
-  def pcycle;    power_action "(1,4)"; end
+  def pcycle;    power_action "(1,2)"; end
   def preset;    power_action "(1,3)"; end
   def shutdown; power_action "(1,5)"; end
 
