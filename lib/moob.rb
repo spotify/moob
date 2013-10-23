@@ -19,16 +19,18 @@ module Moob
   autoload :Megatrends, 'moob/megatrends.rb'
   autoload :SunILom,    'moob/sunilom.rb'
   autoload :IbmEServer, 'moob/ibmeserver.rb'
+  autoload :Supermicro, 'moob/supermicro.rb'
 
   TYPES = {
     :idrac6     => Idrac6,
     :idrac7     => Idrac7,
     :megatrends => Megatrends,
     :sun        => SunILom,
-    :ibm        => IbmEServer
+    :ibm        => IbmEServer,
+    :supermicro => Supermicro
   }
 
-  AUTODETECT_ORDER = [ :idrac7, :idrac6, :megatrends, :sun, :ibm ]
+  AUTODETECT_ORDER = [ :idrac7, :idrac6, :supermicro, :megatrends, :sun, :ibm ]
 
   def self.lom type, hostname, options = {}
     case type
