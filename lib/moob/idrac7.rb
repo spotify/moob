@@ -1,4 +1,5 @@
 module Moob
+
 class Idrac7 < BaseLom
   @name = 'Dell iDrac 7'
 
@@ -29,6 +30,8 @@ class Idrac7 < BaseLom
 
   def authenticate
     @session.handle_cookies nil
+    # Needed for new version of iDrac emb web server to even responde
+    @session.headers['Accept-Language'] = 'en-US,en;q=0.8,sv;q=0.6'
 
     login = @session.get 'login.html'
 
@@ -57,15 +60,21 @@ class Idrac7 < BaseLom
     end
 
     Moob.inform "Requesting indexurl of #{@indexurl}"
-    @authhash = @indexurl.split('?')[1]
-
-    @index = @session.get @indexurl
 
     # someone decided it was a good idea to include a ST2 token in every XHR
     # request. We need it for a lot of our features.
-    @index.body =~ /var TOKEN_VALUE = "([0-9a-f]+)";/
-    raise ResponseError.new @index unless @index.status == 200
+    @authhash = @indexurl.split('?')[1]
+    @authhash =~ /ST2=([0-9a-f]+)/
     @st2 = $1
+
+    if @st2.nil?
+        Moob.inform 'Trying to parse ST2 token from HTML page'
+
+        @index = @session.get @indexurl
+        @index.body =~ /var TOKEN_VALUE = "([0-9a-f]+)";/
+        raise ResponseError.new @index unless @index.status == 200
+        @st2 = $1
+    end
 
     @session.headers['ST2'] = @st2
 
@@ -81,7 +90,7 @@ class Idrac7 < BaseLom
   def detect
     begin
       home = @session.get 'login.html'
-      home.body =~ /Integrated Dell Remote Access Controller 7/
+      home.body =~ /(Integrated Dell Remote Access Controller 7)|(iDRAC7)/
     rescue
       false
     end
@@ -90,16 +99,11 @@ class Idrac7 < BaseLom
   action :jnlp, 'Remote control'
 
   def jnlp
-    @index.body =~ /var tmpHN += +"([^"]+)"/
-    raise "Couldn't find the DNS name" unless $&
-    dns_name = $1
-
-    @index.body =~ /var sysNameStr += +"([^"]+)"/
-    raise "Couldn't find the system name" unless $&
-    sys_name = $1 # eg PowerEdge R610
+    # Request system name and hostname from data end-point
+    req = get_infos ['sysDesc' ,'hostname']
 
     # eg escaped "idrac-A1BCD2E, PowerEdge R610, User:root"
-    title = CGI::escape "#{dns_name}, #{sys_name}, User:#{@username}"
+    title = CGI::escape "#{req['hostname']}, #{req['sysDesc']}, User:#{@username}"
 
     viewer = @session.get "viewer.jnlp(#{@hostname}@0@#{title}@#{Time.now.to_i * 1000}@#{@authhash})"
     raise ResponseError.new viewer unless viewer.status == 200
@@ -166,6 +170,7 @@ class Idrac7 < BaseLom
   end
 
   def get_infos keys
+    Moob.inform "Requesting data?get=#{keys.join(',')}"
     infos = @session.post "data?get=#{keys.join(',')}", {}
 
     raise ResponseError.new infos unless infos.status == 200
