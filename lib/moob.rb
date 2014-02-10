@@ -2,7 +2,7 @@ require 'fileutils'
 require 'tempfile'
 
 module Moob
-  VERSION = [0,3,13]
+  VERSION = [0,3,14]
 
   class ResponseError < Exception
     def initialize response
