@@ -11,6 +11,6 @@ XS-Ruby-Versions: all
 Package: ruby-moob
 Architecture: all
 XB-Ruby-Versions: ${ruby:Versions}
-Depends: ${shlibs:Depends}, ${misc:Depends}, ruby | ruby-interpreter, ruby-patron, libjson-ruby
+Depends: ${shlibs:Depends}, ${misc:Depends}, ruby | ruby-interpreter, ruby-patron, ruby-json
 Description: Manage Out-Of-Band!
  Control systems using Web-based out-of-band managers without a browser
