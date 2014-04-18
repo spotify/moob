@@ -1,3 +1,9 @@
+ruby-moob (0.3.15-1) precise; urgency=medium
+
+  * Fix dependency for Trusty
+
+ -- Nathan Ferch <nf@spotify.com>  Sat, 19 Apr 2014 11:32:13 -0400
+
 ruby-moob (0.3.14-1) precise; urgency=low
 
   * Limited SuperMicro support.
