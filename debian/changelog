@@ -1,3 +1,22 @@
+ruby-moob (0.3.15-1) precise; urgency=medium
+
+  * Fix dependency for Trusty
+
+ -- Nathan Ferch <nf@spotify.com>  Sat, 19 Apr 2014 11:32:13 -0400
+
+ruby-moob (0.3.14-1) precise; urgency=low
+
+  * Limited SuperMicro support.
+  * Support new iDRAC 7 firmwares.
+
+ -- Nathan Ferch <nf@spotify.com>  Mon, 10 Feb 2014 18:11:53 +0000
+
+ruby-moob (0.3.13-1) precise; urgency=low
+
+  * Use Tempfile for jnlp
+
+ -- Nathan Ferch <nf@spotify.com> Fri, 26 July 2013 17:36:15 +0000
+
 ruby-moob (0.3.12-1) precise; urgency=low
 
   * 1.8.7 bugfix
