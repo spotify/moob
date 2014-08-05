@@ -67,5 +67,13 @@ class Supermicro < BaseLom
     end
   end
 
+  action :jnlp, 'Remote control'
+  def jnlp
+    viewer = @session.get 'cgi/url_redirect.cgi?url_name=&url_type=jwsk'
+    raise ResponseError.new viewer unless viewer.status == 200
+
+    return viewer.body
+  end
+
 end
 end
