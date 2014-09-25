@@ -1,3 +1,10 @@
+ruby-moob (0.3.16) precise; urgency=medium
+
+  * JNLP support for SuperMicro
+  * lomreset action for iDRAC 7
+
+ -- Nathan Ferch <nf@spotify.com>  Thu, 25 Sep 2014 13:06:36 -0400
+
 ruby-moob (0.3.15-1) precise; urgency=medium
 
   * Fix dependency for Trusty
