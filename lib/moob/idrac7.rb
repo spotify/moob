@@ -82,8 +82,12 @@ class Idrac7 < BaseLom
   end
 
   def logout
-    out = @session.get 'data/logout'
-    raise ResponseError.new out unless out.status == 200
+    if @skiplogout
+      Moob.inform 'Skipping logout...'
+    else
+      out = @session.get 'data/logout'
+      raise ResponseError.new out unless out.status == 200
+    end
     return self
   end
 
@@ -222,6 +226,12 @@ class Idrac7 < BaseLom
     raise UnexpectedContentError.new req unless req.headers['Content-type'] =~ /image\//
 
     return imgfile, req.headers
+  end
+
+  action :lomreset, 'Reset LOM'
+  def lomreset
+    @skiplogout = true
+    drac_set_params({ 'iDracReset' => 1 })
   end
 
 end

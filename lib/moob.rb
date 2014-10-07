@@ -2,7 +2,6 @@ require 'fileutils'
 require 'tempfile'
 
 module Moob
-  VERSION = [0,3,12]
 
   class ResponseError < Exception
     def initialize response
@@ -13,6 +12,7 @@ module Moob
     end
   end
 
+  autoload :VERSION,    'moob/version.rb'
   autoload :BaseLom,    'moob/baselom.rb'
   autoload :Idrac6,     'moob/idrac6.rb'
   autoload :Idrac7,     'moob/idrac7.rb'
