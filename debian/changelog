@@ -1,3 +1,9 @@
+ruby-moob (0.4.1) precise; urgency=low
+
+  * iDRAC 8 detect bugfix
+
+ -- Nathan Ferch <nf@spotify.com>  Mon, 22 Jun 2015 16:29:59 -0400
+
 ruby-moob (0.4.0) precise; urgency=low
 
   * iDRAC 8 support
