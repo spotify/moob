@@ -9,7 +9,7 @@ Presentation
 
 Both the device and feature lists are quite limited as its development has mostly been driven by immediate needs at Spotify. Similarly, tests are only performed on the firmware versions we have at hand.
 
-We currently have an inconsistent set of features for Dell iDrac6, American Megatrends, Sun and IBM devices. Patches and requests are welcome and we will do our best to make it useful to all.
+We currently have an inconsistent set of features for Dell iDrac6/iDrac7/iDrac8, American Megatrends, Sun and IBM devices. Patches and requests are welcome and we will do our best to make it useful to all.
 
 Installation
 ------------
