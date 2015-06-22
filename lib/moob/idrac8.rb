@@ -106,8 +106,12 @@ class Idrac8 < BaseLom
   def detect
     begin
       home = @session.get 'login.html'
-      # patron doesn't decompress the body automatically
-      response = decompress_response home.body
+      # patron doesn't (always?) decompress the body automatically
+      begin
+        response = decompress_response home.body
+      rescue Zlib::GzipFile::Error
+        response = home.body
+      end
       response =~ /(Integrated Dell Remote Access Controller 8)|(iDRAC8)/
     rescue Exception => e
       false
