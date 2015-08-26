@@ -56,7 +56,7 @@ class Idrac7 < BaseLom
 
     if @indexurl =~ /defaultCred/
       @indexurl.gsub!(/defaultCred/,'index')
-      Moob.warn "iDRAC recommends you should change the default credentials!"
+      Moob.inform "iDRAC recommends you should change the default credentials!"
     end
 
     Moob.inform "Requesting indexurl of #{@indexurl}"
