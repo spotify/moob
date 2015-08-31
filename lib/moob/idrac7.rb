@@ -32,6 +32,8 @@ class Idrac7 < BaseLom
     @session.handle_cookies nil
     # Needed for new version of iDrac emb web server to even responde
     @session.headers['Accept-Language'] = 'en-US,en;q=0.8,sv;q=0.6'
+    # idrac7 responds with a 404 if the request is sent for html is sent without encoding headers
+    @session.headers['Accept-Encoding'] = 'gzip,deflate,sdch'
 
     login = @session.get 'login.html'
 
@@ -223,7 +225,9 @@ class Idrac7 < BaseLom
     req = @session.get_file "capconsole/scapture0.png?#{Time.now.utc.to_i}", imgfile.path
 
     raise ResponseError.new req unless req.status == 200
-    raise UnexpectedContentError.new req unless req.headers['Content-type'] =~ /image\//
+
+    content_type = req.headers['Content-type'] || req.headers['Content-Type']
+    raise "Unexpected content type #{content_type}, expected 'image/' prefix" unless content_type =~ /image\//
 
     return imgfile, req.headers
   end
