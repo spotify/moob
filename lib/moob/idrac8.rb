@@ -242,7 +242,9 @@ class Idrac8 < BaseLom
     req = @session.get_file "capconsole/scapture0.png?#{Time.now.utc.to_i}", imgfile.path
 
     raise ResponseError.new req unless req.status == 200
-    raise UnexpectedContentError.new req unless req.headers['Content-type'] =~ /image\//
+
+    content_type = req.headers['Content-type'] || req.headers['Content-Type']
+    raise "Unexpected content type #{content_type}, expected 'image/' prefix" unless content_type =~ /image\//
 
     return imgfile, req.headers
   end

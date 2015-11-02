@@ -82,8 +82,8 @@ module Moob
   def self.save_console_preview lom
     imgfile, headers = lom.fetch_console_preview
 
-    timestamp=Time.parse(headers['Last-modified'])
-    fileext=headers['Content-type'].split('/')[1]
+    timestamp=Time.parse(headers['Last-modified'] || headers['Last-Modified'])
+    fileext=(headers['Content-type'] || headers['Content-Type']).split('/')[1]
 
     filename="#{lom.hostname}-#{timestamp.utc.iso8601(0)}.#{fileext}"
 
