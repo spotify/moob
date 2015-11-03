@@ -1,4 +1,4 @@
-moob: Manage Out Of Band
+moob: Manage Out Of Band [![Slack Status](http://slackin.spotify.com/badge.svg)](http://slackin.spotify.com)
 ========================
 
 
