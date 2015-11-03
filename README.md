@@ -28,6 +28,7 @@ Use `-h` for the complete documentation.
 For example, to install via PXE `foo` and `bar`, servers managed by Dell iDrac6, disregarding their current boot settings and whether they are already up:
 
         # moob -vm foo.lom.example.com,bar.lom.example.com -a bpxe,preset,pon -t idrac6
+        # moob -vm pacey.lom.example.com -a exec -t idracxml -g "racadm racreset"
 
 Known issues
 ------------
