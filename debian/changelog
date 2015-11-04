@@ -1,3 +1,11 @@
+ruby-moob (0.5.0) precise; urgency=low
+
+  * Fix iDRAC7 login (need to send Accept-Encoding header), fix iDrac7/8
+    screenshot saving (header case is different)
+  * Add idracxml type
+
+ -- Nathan Ferch <nf@spotify.com>  Wed, 4 Nov 2015 15:49:59 -0500
+
 ruby-moob (0.4.1) precise; urgency=low
 
   * iDRAC 8 detect bugfix
