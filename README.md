@@ -14,7 +14,7 @@ We currently have an inconsistent set of features for Dell iDrac6/iDrac7/iDrac8,
 Installation
 ------------
 
-`moob` is known to work with both Ruby 1.8 and 1.9. To install it using `rubygems`, use:
+`moob` is known to work with Ruby 1.9+. To install it using `rubygems`, use:
 
         # gem install moob
 
