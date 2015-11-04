@@ -1,0 +1,19 @@
+language: ruby
+
+rvm:
+  - 1.8.7
+  - 1.9.2
+  - 1.9.3
+  - 2.0.0
+  - 2.1
+  - 2.2
+deploy:
+  provider: rubygems
+  api_key:
+    secure: tsVyORlBpE4MYPxf2oU7lCL+0DkUL1o3Qzxmu94M4TS5ULwPlYOshAc3zDjPHOGfL3bPS/1AHYM06m02cbL4EaCEY7medAxUVTab2eF4ZeDouzPbLjG5A0yA2YZNHfXbC1JzNUnxhqnfIAXu6onYkVE7q6pYxFV5y53JRkQHD5I=
+  gem: moob
+  on:
+    tags: true
+    repo: spotify/moob
+    branch: master
+sudo: false
