@@ -14,7 +14,7 @@ We currently have an inconsistent set of features for Dell iDrac6/iDrac7/iDrac8,
 Installation
 ------------
 
-`moob` is known to work with both Ruby 1.8 and 1.9. To install it using `rubygems`, use:
+`moob` is known to work with Ruby 1.9+. To install it using `rubygems`, use:
 
         # gem install moob
 
@@ -28,6 +28,7 @@ Use `-h` for the complete documentation.
 For example, to install via PXE `foo` and `bar`, servers managed by Dell iDrac6, disregarding their current boot settings and whether they are already up:
 
         # moob -vm foo.lom.example.com,bar.lom.example.com -a bpxe,preset,pon -t idrac6
+        # moob -vm pacey.lom.example.com -a exec -t idracxml -g "racadm racreset"
 
 Known issues
 ------------
