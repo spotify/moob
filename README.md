@@ -1,4 +1,4 @@
-moob: Manage Out Of Band [![Slack Status](http://slackin.spotify.com/badge.svg)](http://slackin.spotify.com)
+moob: Manage Out Of Band [![Build Status](https://travis-ci.org/spotify/moob.svg?branch=master)](https://travis-ci.org/spotify/moob) [![Slack Status](http://slackin.spotify.com/badge.svg)](http://slackin.spotify.com)
 ========================
 
 
