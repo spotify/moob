@@ -7,7 +7,11 @@ require 'moob/version'
 
 Gem::Specification.new do |s|
   s.name        = 'moob'
-  s.version     = Moob::VERSION.join '.'
+  if ENV['TRAVIS_TAG'] == 'pre'
+    s.version     = "#{Moob::VERSION.join '.'}.pre.#{ENV['TRAVIS_BUILD_NUMBER']}"
+  else
+    s.version     = Moob::VERSION.join '.'
+  end
   s.platform    = Gem::Platform::RUBY
   s.authors     = ['Nathan Ferch']
   s.email       = ['nf@spotify.com']
@@ -19,8 +23,8 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = '>= 1.2.0'
   s.rubyforge_project         = 'moob'
 
-  s.add_dependency 'patron', '~> 0.4.14'
-  s.add_dependency 'json', '~> 1.5.3'
+  s.add_runtime_dependency 'patron', '~> 0.4', '>= 0.4.14'
+  s.add_runtime_dependency 'json', '~> 1.5', '>= 1.5.3'
 
   s.files        = Dir.glob("{bin,lib}/**/*") + %w(COPYING)
   s.executables  = ['moob']
