@@ -7,7 +7,11 @@ require 'moob/version'
 
 Gem::Specification.new do |s|
   s.name        = 'moob'
-  s.version     = Moob::VERSION.join '.'
+  if ENV['TRAVIS_TAG'] == 'pre'
+    s.version     = "#{Moob::VERSION.join '.'}.pre.#{ENV['TRAVIS_BUILD_NUMBER']}"
+  else
+    s.version     = Moob::VERSION.join '.'
+  end
   s.platform    = Gem::Platform::RUBY
   s.authors     = ['Nathan Ferch']
   s.email       = ['nf@spotify.com']
